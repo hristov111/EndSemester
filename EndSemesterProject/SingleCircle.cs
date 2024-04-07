@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,26 +10,32 @@ using System.Windows.Forms;
 
 namespace EndSemesterProject
 {
-    public partial class Form2 : Form, ICheckTextbox
+    public partial class SingleCircle : Form, ICheckTextbox
     {
-        private Form1 fromInstance;
-        public Form2(Form1 form1)
+        private Circle Instance;
+        public Color Color { get; set; }
+        public Color Outline { get; set; }
+        public int Radius { get; set; }
+        private int ID { get; set; }
+        public SingleCircle(Circle instance, Color color, Color outline, int radius, int id)
         {
             InitializeComponent();
-            this.fromInstance = form1;
+            this.Instance=instance;
+            Color=color;
+            Outline=outline;
+            Radius=radius;
+            ID=id;
+            current_color.Text = Color.ToString();
+            current_outline.Text = Outline.ToString();
+            current_radius.Text = Radius.ToString();
+            circle_edit.Text +=$": {ID}";
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void circle_submit_Click(object sender, EventArgs e)
         {
-            fromInstance.Rect_Width = GiveValue(rectangle_Width, "Please enter a valid number for rectangle width!\nA default value of 50 is set instead!");
-            fromInstance.Rect_Height =  GiveValue(rectangle_Height, "Please enter a valid number for rectangle helight!\nA default value of 50 is set instead!");
-            fromInstance.Triangle_Side1 = GiveValue(triangle_Side1, "Please enter a valid number for triangle side1!\nA default value of 50 is set instead!");
-            fromInstance.Triangle_Side2 =  GiveValue(triangle_Side2, "Please enter a valid number for triangle side2!\nA default value of 50 is set instead!");
-            fromInstance.Triangle_Side3 =GiveValue(triangle_Side3, "Please enter a valid number for triangle side3!\nA default value of 50 is set instead!");
-            fromInstance.Circle_Radius = GiveValue(circle_Radius, "Please enter a valid number for circle radius!\nA default value of 50 is set instead!");
-            fromInstance.Rect_outColor = ConvertToColor(rectangle_outColor.Text);
-            fromInstance.Triangle_outColor = ConvertToColor(triangle_outColor.Text);
-            fromInstance.Circle_outColor = ConvertToColor(circle_outColor.Text);
+            Instance.FigureColor = ConvertToColor(current_color.Text);
+            Instance.Figure_outColor = ConvertToColor(current_outline.Text);
+            Instance.Radius = GiveValue(current_radius, "Please enter a valid number for circle radius!\nA default value of 50 is set instead!");
             this.Close();
         }
         public Color ConvertToColor(string color)
@@ -40,9 +45,10 @@ namespace EndSemesterProject
             else if (color == "blue") return Color.Blue;
             else if (color == "green") return Color.Green;
             else if (color == "yellow") return Color.Yellow;
-            else return Color.Black;
-            // default color
+            return Color.Aqua;
+            //default color if no color is given
         }
+
         public int GiveValue(TextBox t, string message)
         {
             if (!check_Text(t))
@@ -64,6 +70,7 @@ namespace EndSemesterProject
                 return 50;
             }
         }
+
         public bool check_Text(TextBox t)
         {
             string text = t.Text;
@@ -75,11 +82,6 @@ namespace EndSemesterProject
                 }
             }
             return true;
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
         }
     }
 }

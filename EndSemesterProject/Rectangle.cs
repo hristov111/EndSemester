@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 
 namespace EndSemesterProject
 {
-    internal class Rectangle:Figure
+    public class Rectangle:Figure
     {
 
         public int Width { get; set; }
         public int Height { get; set; }
+        public static int NextID = 0;
+        public int ID { get; set; }
 
         public Rectangle(int x, int y, Color color, Color outline, int width, int height) : base(x, y, color, outline)
         {
             this.Width = width;
             this.Height= height;
+            ID = NextID++;
         }
         protected override double GetArea()
         {
@@ -34,6 +37,16 @@ namespace EndSemesterProject
                 g.DrawRectangle(pen, X,Y,Width,Height);
             }
 
+        }
+        // HitTest method to check if a point is inside the rectangle
+        public override bool HitTest(Point point)
+        {
+            // check if the point is whithin the bounds of the rectangle
+            return point.X >= X && point.X <=X +Width && point.Y >= Y && point.Y <= Y + Height;
+        }
+        public override void ChangePos(int x, int y)
+        {
+            X = x; Y = y;
         }
     }
 }
