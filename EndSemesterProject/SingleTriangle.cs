@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace EndSemesterProject
 {
-    public partial class SingleTriangle : Form, ICheckTextbox
+    public partial class SingleTriangle : Form
     {
         private Triangle Instance;
         public Color Color { get; set; }
@@ -19,6 +19,7 @@ namespace EndSemesterProject
         public int SecondSide { get; set; }
         public int ThirdSide { get; set; }
         private int ID { get; set; }
+        private CheckTextbox check_trig = new CheckTextbox();
         public SingleTriangle(Triangle instance, Color color, Color outline, int firstSide, int secondSide, int thirdSide, int id)
         {
             InitializeComponent();
@@ -39,57 +40,15 @@ namespace EndSemesterProject
         }
         private void triangle_button_Click(object sender, EventArgs e)
         {
-            Instance.FigureColor = ConvertToColor(current_color.Text);
-            Instance.Figure_outColor = ConvertToColor(current_outline.Text);
-            Instance.FirstSide = GiveValue(first_side, "Please enter a valid number for triangle's first side!\nA default value of 50 is set instead!");
-            Instance.SecondSide = GiveValue(second_side, "Please enter a valid number for triangle's second side!\nA default value of 50 is set instead!");
-            Instance.ThirdSide = GiveValue(third_side, "Please enter a valid number for triangle's first side!\nA default value of 50 is set instead!");
+            Instance.FigureColor = check_trig.ConvertToColor(current_color.Text);
+            Instance.Figure_outColor = check_trig.ConvertToColor(current_outline.Text);
+            Instance.FirstSide = check_trig.GiveValue(first_side, "Please enter a valid number for triangle's first side!\nA default value of 50 is set instead!");
+            Instance.SecondSide = check_trig.GiveValue(second_side, "Please enter a valid number for triangle's second side!\nA default value of 50 is set instead!");
+            Instance.ThirdSide = check_trig.GiveValue(third_side, "Please enter a valid number for triangle's first side!\nA default value of 50 is set instead!");
+            Instance.ChangePos(Instance.X, Instance.Y);
             this.Close();
         }
-        public Color ConvertToColor(string color)
-        {
-            color = color.ToLower();
-            if (color == "red") return Color.Red;
-            else if (color == "blue") return Color.Blue;
-            else if (color == "green") return Color.Green;
-            else if (color == "yellow") return Color.Yellow;
-            return Color.Aqua;
-            //default color if no color is given
-        }
-
-        public int GiveValue(TextBox t, string message)
-        {
-            if (!check_Text(t))
-            {
-                MessageBox.Show(message, "Error!");
-                t.Text = "";
-                //default value if there is a error
-                return 50;
-            }
-            if (t.Text != "")
-            {
-                int num = Convert.ToInt32(t.Text);
-                t.Text = "";
-                return num;
-            }
-            else
-            {
-                MessageBox.Show("No argument given! Default value of 50 set", "Error!");
-                return 50;
-            }
-        }
-
-        public bool check_Text(TextBox t)
-        {
-            string text = t.Text;
-            foreach (char c in text)
-            {
-                if (!char.IsDigit(c))
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
+       
+        
     }
 }

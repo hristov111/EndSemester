@@ -9,8 +9,8 @@ namespace EndSemesterProject
         // width: 1387
         //height:  686
 
-        private List<Figure> figures = new List<Figure>();
-        private Color currentColor;
+        public List<Figure> figures = new List<Figure>();
+        public Color currentColor;
         // setting default properties
         public int Rect_Width { get; set; } = 50;
         public int Rect_Height { get; set; } = 50;
@@ -26,17 +26,22 @@ namespace EndSemesterProject
         public int MouseX { get; set; }
         public int MouseY { get; set; }
         private bool left_mouseClick = true;
-        private Figure currentFigure;
+        public Figure currentFigure;
         Point scrPos;
         Point formPos;
         private string currentMode = "Create";
         private bool isDragging = false;
         private Figure draggingShape;
         private Point DragStart;
+        private Red_Undo redo_undo;
+        public int screen_remove = 0;
         public Form1()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
+            Color_Button.Instance = this;
+            redo_undo =  new Red_Undo(this);
+
         }
 
 
@@ -114,7 +119,10 @@ namespace EndSemesterProject
             {
                 if (currentMode == "Create")
                 {
+                    redo_undo.undo_modes.Push("Create");
+                    redo_undo.undo.Push(currentFigure);
                     figures.Add(currentFigure);
+                    redo_undo.undo_indices.Push(figures.IndexOf(currentFigure));
                     this.Invalidate();
                     if (currentFigure is Rectangle)
                     {
@@ -135,8 +143,11 @@ namespace EndSemesterProject
                     {
                         if (figures[i].HitTest(new Point(e.X, e.Y)))
                         {
-                            ChangeInidces(figures[i], i);
+                            redo_undo.undo_modes.Push("Delete");
+                            redo_undo.undo.Push(figures[i]);
+                            redo_undo.undo_indices.Push(i);
                             figures.Remove(figures[i]);
+                            ChangeInidces(figures[i], i,true);
                             this.Invalidate();
                             break;
 
@@ -145,7 +156,7 @@ namespace EndSemesterProject
                 }
             }
         }
-        private void ChangeInidces(Figure obj, int idx)
+        public void ChangeInidces(Figure obj, int idx,bool deleting)
         {
             int last = 0;
             if (obj is Rectangle)
@@ -155,7 +166,14 @@ namespace EndSemesterProject
                     if (figures[i] is Rectangle)
                     {
                         Rectangle rect = (Rectangle)figures[i];
-                        rect.ID--;
+                        if (deleting)
+                        {
+                            rect.ID--;
+                        }
+                        else
+                        {
+                            rect.ID++;
+                        }
                     }
                     if (i == figures.Count -1)
                     {
@@ -172,7 +190,14 @@ namespace EndSemesterProject
                     if (figures[i] is Triangle)
                     {
                         Triangle trig = (Triangle)figures[i];
-                        trig.ID--;
+                        if (deleting)
+                        {
+                            trig.ID--;
+                        }
+                        else
+                        {
+                            trig.ID++;
+                        }
                     }
                     if (i == figures.Count -1)
                     {
@@ -189,7 +214,14 @@ namespace EndSemesterProject
                     if (figures[i] is Circle)
                     {
                         Circle circ = (Circle)figures[i];
-                        circ.ID--;
+                        if (deleting)
+                        {
+                            circ.ID--;
+                        }
+                        else
+                        {
+                            circ.ID++;
+                        }
                     }
                     if (i == figures.Count -1)
                     {
@@ -217,27 +249,6 @@ namespace EndSemesterProject
                 figure.DrawShape(e.Graphics);
             }
         }
-
-        private void red_Click(object sender, EventArgs e)
-        {
-            currentColor = Color.Red;
-        }
-
-        private void blue_Click(object sender, EventArgs e)
-        {
-            currentColor= Color.Blue;
-        }
-
-        private void green_Click(object sender, EventArgs e)
-        {
-            currentColor = Color.Green;
-        }
-
-        private void yellow_Click(object sender, EventArgs e)
-        {
-            currentColor = Color.Yellow;
-        }
-
         public void options_button_Click(object sender, EventArgs e)
         {
             Form2 second_form = new Form2(this);
@@ -335,10 +346,31 @@ namespace EndSemesterProject
 
         private void clear_button_Click(object sender, EventArgs e)
         {
+            for (int i = 0; i<figures.Count; i++)
+            {
+                redo_undo.undo_clear.Add(figures[i]);
+            }
+            redo_undo.undo_modes.Push("Clear");
+            redo_undo.rectangle_nextId=Rectangle.NextID;
+            redo_undo.triangle_nextId=Triangle.NextID;
+            redo_undo.circle_nextId=Circle.NextID;
             figures.Clear();
             Rectangle.NextID = 0;
             Triangle.NextID = 0;
             Circle.NextID = 0;
+            screen_remove++;
+            Invalidate();
+        }
+
+        private void undo_button_Click(object sender, EventArgs e)
+        {
+            redo_undo.Undo();
+            Invalidate();
+        }
+
+        private void redo_button_Click(object sender, EventArgs e)
+        {
+            redo_undo.Redo();
             Invalidate();
         }
     }
