@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EndSemesterProject
@@ -17,8 +18,8 @@ namespace EndSemesterProject
         private PointF point2;
         private PointF point3;
 
-
-        public Triangle(int x, int y, Color color,Color outline,int firstSide, int secondSide, int thirdSide) : base(x, y, color,outline)
+        [JsonConstructor]
+        public Triangle(int x, int y, Color figurecolor,Color figure_outcolor,int firstSide, int secondSide, int thirdSide) : base(x, y, figurecolor, figure_outcolor)
         {
             this.FirstSide = firstSide;
             this.SecondSide = secondSide;

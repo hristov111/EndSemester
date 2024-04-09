@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EndSemesterProject
@@ -13,8 +14,8 @@ namespace EndSemesterProject
         public int Radius { get; set; }
         public static int NextID = 0;
         public int ID { get; set; }
-
-        public Circle(int x, int y,Color color,Color outline, int radius) :base(x,y,color,outline)
+        [JsonConstructor]
+        public Circle(int x, int y,Color figurecolor,Color figure_outcolor, int radius) :base(x,y,figurecolor,figure_outcolor)
         {
             this.Radius = radius;
             ID = NextID++;

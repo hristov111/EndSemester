@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EndSemesterProject
@@ -13,8 +14,8 @@ namespace EndSemesterProject
         public int Height { get; set; }
         public static int NextID = 0;
         public int ID { get; set; }
-
-        public Rectangle(int x, int y, Color color, Color outline, int width, int height) : base(x, y, color, outline)
+        [JsonConstructor]
+        public Rectangle(int x, int y, Color figurecolor, Color figure_outcolor, int width, int height) : base(x, y, figurecolor, figure_outcolor)
         {
             this.Width = width;
             this.Height= height;

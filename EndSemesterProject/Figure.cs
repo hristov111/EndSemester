@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EndSemesterProject
@@ -13,12 +14,13 @@ namespace EndSemesterProject
         public Color FigureColor { get; set; }
         public Color Figure_outColor { get; set; }
 
-        public Figure(int x, int y,Color color, Color outline)
+        [JsonConstructor]
+        public Figure(int x, int y,Color figurecolor, Color figure_outcolor)
         {
             this.X = x;
             this.Y = y;
-            this.FigureColor = color;
-            this.Figure_outColor = outline;
+            this.FigureColor = figurecolor;
+            this.Figure_outColor = figure_outcolor;
         }
 
         protected abstract double GetArea();
