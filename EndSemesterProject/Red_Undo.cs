@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EndSemesterProject
 {
-    class Red_Undo
+    public class Red_Undo
     {
         private Form1 Instance;
         public Stack<Figure> undo = new Stack<Figure>();

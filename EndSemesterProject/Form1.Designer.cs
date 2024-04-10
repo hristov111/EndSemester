@@ -210,9 +210,9 @@
 
         #endregion
 
-        private Button create_circle;
-        private Button create_Triangle;
-        private Button create_Rectangle;
+        protected Button create_circle;
+        protected Button create_Triangle;
+        protected Button create_Rectangle;
         private Button options_button;
         private ComboBox comboBox1;
         private Label label1;

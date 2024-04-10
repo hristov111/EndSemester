@@ -33,127 +33,57 @@ namespace EndSemesterProject
         private bool isDragging = false;
         private Figure draggingShape;
         private Point DragStart;
-        private Red_Undo redo_undo;
+        protected Red_Undo redo_undo;
         public int screen_remove = 0;
+
+        private Create create_figure;
+        private Delete delete_figure;
         public Form1()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
             Color_Button.Instance = this;
             redo_undo =  new Red_Undo(this);
+            create_figure = new Create();
+            delete_figure = new Delete();
 
         }
 
 
 
-        private void create_circle_Click(object sender, EventArgs e)
+        protected void create_circle_Click(object sender, EventArgs e)
         {
 
             scrPos = Cursor.Position;
             formPos = this.PointToClient(scrPos);
-            if (currentColor == Color.Red)
-            {
-                currentFigure = new Circle(formPos.X, formPos.Y, Color.Red, Circle_outColor, Circle_Radius);
-            }
-            else if (currentColor == Color.Blue)
-            {
-                currentFigure = new Circle(formPos.X, formPos.Y, Color.Blue, Circle_outColor, Circle_Radius);
-            }
-            else if (currentColor == Color.Green)
-            {
-                currentFigure = new Circle(formPos.X, formPos.Y, Color.Green, Circle_outColor, Circle_Radius);
-            }
-            else if (currentColor == Color.Yellow)
-            {
-                currentFigure = new Circle(formPos.X, formPos.Y, Color.Yellow, Circle_outColor, Circle_Radius);
-            }
+            create_figure.CreateFigure(typeof(Circle), currentColor, formPos);
 
         }
-        private void create_Triangle_Click(object sender, EventArgs e)
+        protected void create_Triangle_Click(object sender, EventArgs e)
         {
             scrPos = Cursor.Position;
             formPos = this.PointToClient(scrPos);
-            if (currentColor == Color.Red)
-            {
-                currentFigure = new Triangle(formPos.X, formPos.Y, Color.Red, Triangle_outColor, Triangle_Side1, Triangle_Side2, Triangle_Side3);
-            }
-            else if (currentColor == Color.Blue)
-            {
-                currentFigure = new Triangle(formPos.X, formPos.Y, Color.Blue, Triangle_outColor, Triangle_Side1, Triangle_Side2, Triangle_Side3);
-            }
-            else if (currentColor == Color.Green)
-            {
-                currentFigure = new Triangle(formPos.X, formPos.Y, Color.Green, Triangle_outColor, Triangle_Side1, Triangle_Side2, Triangle_Side3);
-            }
-            else if (currentColor == Color.Yellow)
-            {
-                currentFigure = new Triangle(formPos.X, formPos.Y, Color.Yellow, Triangle_outColor, Triangle_Side1, Triangle_Side2, Triangle_Side3);
-            }
-
+            create_figure.CreateFigure(typeof(Triangle), currentColor, formPos);
         }
-        private void create_Rectangle_Click(object sender, EventArgs e)
+        protected void create_Rectangle_Click(object sender, EventArgs e)
         {
             scrPos = Cursor.Position;
             formPos = this.PointToClient(scrPos);
-            if (currentColor == Color.Red)
-            {
-                currentFigure = new Rectangle(formPos.X, formPos.Y, Color.Red, Rect_outColor, Rect_Width, Rect_Height);
-            }
-            else if (currentColor == Color.Blue)
-            {
-                currentFigure = new Rectangle(formPos.X, formPos.Y, Color.Blue, Rect_outColor, Rect_Width, Rect_Height);
-            }
-            else if (currentColor == Color.Green)
-            {
-                currentFigure = new Rectangle(formPos.X, formPos.Y, Color.Green, Rect_outColor, Rect_Width, Rect_Height);
-            }
-            else if (currentColor == Color.Yellow)
-            {
-                currentFigure = new Rectangle(formPos.X, formPos.Y, Color.Yellow, Rect_outColor, Rect_Width, Rect_Height);
-            }
-
+            create_figure.CreateFigure(typeof(Rectangle), currentColor, formPos);
         }
-        private void Form1_MouseClick(object sender, MouseEventArgs e)
+        protected void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && currentFigure != null)
             {
                 if (currentMode == "Create")
                 {
-                    redo_undo.undo_modes.Push("Create");
-                    redo_undo.undo.Push(currentFigure);
-                    figures.Add(currentFigure);
-                    redo_undo.undo_indices.Push(figures.IndexOf(currentFigure));
-                    this.Invalidate();
-                    if (currentFigure is Rectangle)
-                    {
-                        create_Rectangle_Click(create_Rectangle, EventArgs.Empty);
-                    }
-                    else if (currentFigure is Triangle)
-                    {
-                        create_Triangle_Click(create_Triangle, EventArgs.Empty);
-                    }
-                    else if (currentFigure is Circle)
-                    {
-                        create_circle_Click(create_circle, EventArgs.Empty);
-                    }
+                    create_figure.On_mouse_Click();
                 }
                 else if (currentMode == "Delete")
                 {
-                    for (int i = figures.Count -1; i>=0; i--)
-                    {
-                        if (figures[i].HitTest(new Point(e.X, e.Y)))
-                        {
-                            redo_undo.undo_modes.Push("Delete");
-                            redo_undo.undo.Push(figures[i]);
-                            redo_undo.undo_indices.Push(i);
-                            figures.Remove(figures[i]);
-                            ChangeInidces(figures[i], i,true);
-                            this.Invalidate();
-                            break;
-
-                        }
-                    }
+                    delete_figure.Delete_type(e);
                 }
+                
             }
         }
         public void ChangeInidces(Figure obj, int idx,bool deleting)
