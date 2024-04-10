@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EndSemesterProject
+namespace EndSemensterProject
 {
-    internal class Edit
+    internal interface ICommand
     {
+        public void Execute(MouseEventArgs e);  
     }
 }

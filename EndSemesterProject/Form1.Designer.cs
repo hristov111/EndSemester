@@ -40,6 +40,7 @@
             yellow = new Color_Button();
             undo_button = new Button();
             redo_button = new Button();
+            label1 = new Label();
             SuspendLayout();
             // 
             // create_circle
@@ -165,12 +166,23 @@
             redo_button.UseVisualStyleBackColor = true;
             redo_button.Click += redo_button_Click;
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.BackColor = Color.White;
+            label1.Location = new Point(2062, 35);
+            label1.Name = "label1";
+            label1.Size = new Size(77, 32);
+            label1.TabIndex = 12;
+            label1.Text = "Mode";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(13F, 32F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
             ClientSize = new Size(2546, 1380);
+            Controls.Add(label1);
             Controls.Add(redo_button);
             Controls.Add(undo_button);
             Controls.Add(yellow);
@@ -192,13 +204,14 @@
             MouseMove += Form1_MouseMove;
             MouseUp += Form1_MouseUp;
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
-        protected Button create_circle;
-        protected Button create_Triangle;
-        protected Button create_Rectangle;
+        public Button create_circle;
+        public Button create_Triangle;
+        public Button create_Rectangle;
         private Button options_button;
         private ComboBox comboBox1;
         private Button clear_button;
@@ -208,5 +221,6 @@
         private Color_Button yellow;
         private Button undo_button;
         private Button redo_button;
+        private Label label1;
     }
 }

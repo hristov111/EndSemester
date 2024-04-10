@@ -1,3 +1,4 @@
+using EndSemensterProject;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.CompilerServices;
@@ -8,8 +9,9 @@ namespace EndSemesterProject
     {
         // width: 1387
         //height:  686
-
+        public delegate void CommandMethod();
         public List<Figure> figures = new List<Figure>();
+        private List<CommandMethod> commands = new List<CommandMethod>();
         public Color currentColor;
         // setting default properties
         public int Rect_Width { get; set; } = 50;
@@ -25,67 +27,64 @@ namespace EndSemesterProject
         public Color Circle_outColor { get; set; } = Color.Black;
         public int MouseX { get; set; }
         public int MouseY { get; set; }
-        private bool left_mouseClick = true;
         public Figure currentFigure = null;
         Point scrPos;
         Point formPos;
-        protected string currentMode = "Create";
-        private bool isDragging = false;
-        protected Figure draggingShape = null;
-        protected Point DragStart;
-        protected Red_Undo redo_undo;
+        public string currentMode = "Create";
+        public Figure draggingShape = null;
+        public Point DragStart;
+        public Red_Undo redo_undo;
         public int screen_remove = 0;
 
-        private Create create_figure;
-        private Delete delete_figure;
-        private Move move_figure;
+        private CreateMember CREATE_figure;
+        private DeleteMember DELETE_figure;
+        private MoveMember MOVE_figure;
+        private EditMember EDIT_figure;
         public Form1()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
             Color_Button.Instance = this;
             redo_undo =  new Red_Undo(this);
-            create_figure = new Create();
-            delete_figure = new Delete();
-            move_figure = new Move();
+            CREATE_figure = new CreateMember(this);
+            DELETE_figure = new DeleteMember(this);
+            MOVE_figure = new MoveMember(this);
+            EDIT_figure = new EditMember(this);
 
         }
 
 
 
-        protected void create_circle_Click(object sender, EventArgs e)
+        public void create_circle_Click(object sender, EventArgs e)
         {
 
             scrPos = Cursor.Position;
             formPos = this.PointToClient(scrPos);
-            create_figure.CreateFigure(typeof(Circle), currentColor, formPos);
+            CREATE_figure.CreateFigure(typeof(Circle), currentColor, formPos);
 
         }
-        protected void create_Triangle_Click(object sender, EventArgs e)
+        public void create_Triangle_Click(object sender, EventArgs e)
         {
             scrPos = Cursor.Position;
             formPos = this.PointToClient(scrPos);
-            create_figure.CreateFigure(typeof(Triangle), currentColor, formPos);
+            CREATE_figure.CreateFigure(typeof(Triangle), currentColor, formPos);
         }
-        protected void create_Rectangle_Click(object sender, EventArgs e)
+        public void create_Rectangle_Click(object sender, EventArgs e)
         {
             scrPos = Cursor.Position;
             formPos = this.PointToClient(scrPos);
-            create_figure.CreateFigure(typeof(Rectangle), currentColor, formPos);
+            CREATE_figure.CreateFigure(typeof(Rectangle), currentColor, formPos);
         }
-        protected void Form1_MouseClick(object sender, MouseEventArgs e)
+        public void Form1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && currentFigure != null)
             {
-                if (currentMode == "Create")
-                {
-                    create_figure.On_mouse_Click();
-                }
-                else if (currentMode == "Delete")
-                {
-                    delete_figure.Delete_type(e);
-                }
-                
+                CREATE_figure.Execute(e);
+
+
+                // Optional:
+                //commands.Add(() => CREATE_figure.Execute(e)); 
+
             }
         }
         public void ChangeInidces(Figure obj, int idx,bool deleting)
@@ -179,7 +178,13 @@ namespace EndSemesterProject
             foreach (Figure figure in figures)
             {
                 figure.DrawShape(e.Graphics);
-            }
+            } 
+
+            // OPtional:
+            //foreach (var command in commands)
+            //{
+            //    command();
+            //}
         }
         public void options_button_Click(object sender, EventArgs e)
         {
@@ -190,12 +195,15 @@ namespace EndSemesterProject
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
         {
-            move_figure.StartMove(e); 
+            MOVE_figure.StartMove(e);
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            move_figure.Moving(e);
+            MOVE_figure.Execute(e);
+
+            // Optional:
+            //commands.Add(() => MOVE_figure.Execute(e));
         }
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
@@ -205,44 +213,10 @@ namespace EndSemesterProject
 
         private void Form1_DoubleClick(object sender, MouseEventArgs e)
         {
-            if (currentMode == "Edit")
-            {
-                Figure current_Fig = null;
-                for (int i = figures.Count - 1; i >= 0; i--)
-                {
-                    if (figures[i].HitTest(new Point(e.X, e.Y)))
-                    {
-                        current_Fig = figures[i];
-                        break;
-                    }
-                }
-                if (current_Fig != null)
-                {
-                    if (current_Fig is Triangle)
-                    {
-                        Triangle curr_trig = current_Fig as Triangle;
-                        SingleTriangle trig_edit = new SingleTriangle(curr_trig, curr_trig.FigureColor, curr_trig.Figure_outColor, curr_trig.FirstSide, curr_trig.SecondSide, curr_trig.ThirdSide, curr_trig.ID);
-                        trig_edit.ShowDialog();
-                        Invalidate();
-                    }
-                    else if (current_Fig is Rectangle)
-                    {
-                        Rectangle curr_rect = current_Fig as Rectangle;
-                        SingleRectangle rect_edit = new SingleRectangle(curr_rect, curr_rect.FigureColor, curr_rect.Figure_outColor, curr_rect.Width, curr_rect.Height, curr_rect.ID);
-                        rect_edit.ShowDialog();
-                        Invalidate();
-                    }
-                    else if (current_Fig is Circle)
-                    {
-                        Circle curr_circle = current_Fig as Circle;
-                        SingleCircle circle_edit = new SingleCircle(curr_circle, curr_circle.FigureColor, curr_circle.Figure_outColor, curr_circle.Radius, curr_circle.ID);
-                        circle_edit.ShowDialog();
-                        Invalidate();
-                    }
+            EDIT_figure.Execute(e);
 
-                }
-            }
-
+            // Optional:
+            //commands.Add(() => EDIT_figure.Execute(e));
         }
 
         private void clear_button_Click(object sender, EventArgs e)
