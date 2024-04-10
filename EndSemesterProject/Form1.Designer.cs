@@ -33,7 +33,6 @@
             create_Rectangle = new Button();
             options_button = new Button();
             comboBox1 = new ComboBox();
-            label1 = new Label();
             clear_button = new Button();
             red = new Color_Button();
             blue = new Color_Button();
@@ -99,17 +98,6 @@
             comboBox1.TabIndex = 7;
             comboBox1.Text = "Create";
             comboBox1.SelectedIndexChanged += comboBox_TextChanged;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.White;
-            label1.Location = new Point(2067, 34);
-            label1.Margin = new Padding(6, 0, 6, 0);
-            label1.Name = "label1";
-            label1.Size = new Size(77, 32);
-            label1.TabIndex = 8;
-            label1.Text = "Mode";
             // 
             // clear_button
             // 
@@ -190,7 +178,6 @@
             Controls.Add(blue);
             Controls.Add(red);
             Controls.Add(clear_button);
-            Controls.Add(label1);
             Controls.Add(comboBox1);
             Controls.Add(options_button);
             Controls.Add(create_Rectangle);
@@ -205,7 +192,6 @@
             MouseMove += Form1_MouseMove;
             MouseUp += Form1_MouseUp;
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -215,7 +201,6 @@
         protected Button create_Rectangle;
         private Button options_button;
         private ComboBox comboBox1;
-        private Label label1;
         private Button clear_button;
         private Color_Button red;
         private Color_Button blue;
