@@ -12,7 +12,7 @@ namespace EndSemesterProject
         public delegate void CommandMethod();
         public List<Figure> figures = new List<Figure>();
         private List<CommandMethod> commands = new List<CommandMethod>();
-        public Color currentColor;
+        public Color currentColor = Color.Empty;
         // setting default properties
         public int Rect_Width { get; set; } = 50;
         public int Rect_Height { get; set; } = 50;
@@ -28,6 +28,7 @@ namespace EndSemesterProject
         public int MouseX { get; set; }
         public int MouseY { get; set; }
         public Figure currentFigure = null;
+        public string current_option;
         Point scrPos;
         Point formPos;
         public string currentMode = "Create";
@@ -50,41 +51,30 @@ namespace EndSemesterProject
             DELETE_figure = new DeleteMember(this);
             MOVE_figure = new MoveMember(this);
             EDIT_figure = new EditMember(this);
-
+            Color_Button.Instance2  = CREATE_figure;
         }
 
 
 
         public void create_circle_Click(object sender, EventArgs e)
         {
-
-            scrPos = Cursor.Position;
-            formPos = this.PointToClient(scrPos);
-            CREATE_figure.CreateFigure(typeof(Circle), currentColor, formPos);
+            current_option = "Circle";
 
         }
         public void create_Triangle_Click(object sender, EventArgs e)
         {
-            scrPos = Cursor.Position;
-            formPos = this.PointToClient(scrPos);
-            CREATE_figure.CreateFigure(typeof(Triangle), currentColor, formPos);
+            current_option = "Triangle";
         }
         public void create_Rectangle_Click(object sender, EventArgs e)
         {
-            scrPos = Cursor.Position;
-            formPos = this.PointToClient(scrPos);
-            CREATE_figure.CreateFigure(typeof(Rectangle), currentColor, formPos);
+            current_option = "Rectangle";
         }
         public void Form1_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && currentFigure != null)
+            if (e.Button == MouseButtons.Left && current_option != null)
             {
                 CREATE_figure.Execute(e);
-
-
-                // Optional:
-                //commands.Add(() => CREATE_figure.Execute(e)); 
-
+                DELETE_figure.Execute(e);
             }
         }
         public void ChangeInidces(Figure obj, int idx,bool deleting)
@@ -221,14 +211,7 @@ namespace EndSemesterProject
 
         private void clear_button_Click(object sender, EventArgs e)
         {
-            for (int i = 0; i<figures.Count; i++)
-            {
-                redo_undo.undo_clear.Add(figures[i]);
-            }
-            redo_undo.undo_modes.Push("Clear");
-            redo_undo.rectangle_nextId=Rectangle.NextID;
-            redo_undo.triangle_nextId=Triangle.NextID;
-            redo_undo.circle_nextId=Circle.NextID;
+            redo_undo.Set_ClearList(figures, Triangle.NextID, Rectangle.NextID, Circle.NextID);
             figures.Clear();
             Rectangle.NextID = 0;
             Triangle.NextID = 0;
@@ -239,13 +222,13 @@ namespace EndSemesterProject
 
         private void undo_button_Click(object sender, EventArgs e)
         {
-            redo_undo.Undo();
+            redo_undo.Undo_Clear();
             Invalidate();
         }
 
         private void redo_button_Click(object sender, EventArgs e)
         {
-            redo_undo.Redo();
+            redo_undo.Redo_Clear();
             Invalidate();
         }
     }

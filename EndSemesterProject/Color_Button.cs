@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EndSemensterProject;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
@@ -13,14 +14,11 @@ namespace EndSemesterProject
     {
         // 22, 162 - x,y
         public static Form1 Instance;
+        public static CreateMember Instance2;
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);
             Instance.currentColor = this.BackColor;
-            if(Instance.currentFigure != null )
-            {
-                Instance.currentFigure.FigureColor = this.BackColor;
-            }
         }
         protected override void OnMouseEnter(EventArgs e)
         {

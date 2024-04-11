@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -10,174 +11,181 @@ namespace EndSemesterProject
     public class Red_Undo
     {
         private Form1 Instance;
-        public Stack<Figure> undo = new Stack<Figure>();
-        public  Stack<Figure> redo = new Stack<Figure>();
-        public Stack<string> undo_modes = new Stack<string>();
-        public Stack<string> redo_modes = new Stack<string>();
-        public Stack<int> undo_indices = new Stack<int>();
-        public Stack<int> redo_indices = new Stack<int>();
-        public List<Figure> undo_clear = new List<Figure>();
-        public List<Figure> redo_clear = new List<Figure>();
+        public struct Create_Delete
+        {
+            public Figure Fig;
+            public int Index;
+            public string Mode;
 
-        public Stack<Point> undo_point = new Stack<Point>();
-
-        public Stack<Point> redo_point = new Stack<Point>();
-
-        public int rectangle_nextId;
-        public int circle_nextId;
-        public int triangle_nextId;
-        private int count;
-        private int second_count;
-
-
-
+            public Create_Delete(Figure fig, int index, string mode)
+            {
+                Mode = mode;
+                Index = index;
+                Fig = fig;
+            }
+        }
+        public Stack<Create_Delete> create_delete_undo = new Stack<Create_Delete>();
+        public Stack<Create_Delete> create_delete_redo = new Stack<Create_Delete>();
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        public struct Move
+        {
+            public Figure Fig;
+            public Point Point;
+            public Move(Figure fig,Point point)
+            {
+                Fig = fig;
+                Point = point;
+            }
+        }
+        public Stack<Move> move_undo = new Stack<Move>();
+        public Stack<Move> move_redo = new Stack<Move>();
+        /// <summary>
+        /// /////////////////////////////////////////////////////////////////////////////////////
+        /// </summary>
+        /// 
+        public struct Clear_Screen
+        {
+            public List<Figure> Figures = new List<Figure>();
+            public int Rect_NextID { get; set; }
+            public int Trig_NextID { get; set; }
+            public int Circle_NextID { get; set; }
+            public Clear_Screen(List<Figure> figures,int rect_nextid, int trig_nextid,int circle_nextid)
+            {
+                Rect_NextID = rect_nextid;
+                Trig_NextID = trig_nextid;
+                Circle_NextID = circle_nextid;
+                for(int i = 0; i < figures.Count; ++i)
+                {
+                    Figures.Add(figures[i]);
+                }
+            }
+        }
+        public Stack<Clear_Screen> undo_clear = new Stack<Clear_Screen>();
+        public Stack<Clear_Screen> redo_clear = new Stack<Clear_Screen>();
+        /// <summary>
+        /// ///////////////////////////////////////////////////////////////////
+        /// </summary>
         public Red_Undo(Form1 instance)
         {
             this.Instance = instance;
         } 
-
-
-        public void Undo()
+        public void Set_ValuesCreateDelete(Figure fig, int index, string mode)
         {
-            if(undo.Count != 0 && undo_modes.Count != 0 && (undo_indices.Count !=0||undo_modes.Peek() == "Move")) 
+            Create_Delete new_create_delete = new Create_Delete(fig,index,mode);
+            create_delete_undo.Push(new_create_delete);
+            
+        }
+        public void Set_ValueMove(Figure fig, Point point)
+        {
+            if(move_undo.Count == 0)
             {
-                string current_mode = undo_modes.Pop();
-                if (current_mode == "Clear")
+                Move new_move = new Move(fig, point);
+                move_undo.Push(new_move);
+            }
+            else
+            {
+                Move last_move = move_undo.Peek();
+                Point last_point = last_move.Point;
+                if(Math.Abs((last_point.X + last_point.Y) - (point.X + point.Y)) > 20)
                 {
-                    for (int i = 0; i<undo_clear.Count; ++i)
-                    {
-                        Instance.figures.Add(undo_clear[i]);
-                    }
-                    Rectangle.NextID = rectangle_nextId;
-                    Triangle.NextID = triangle_nextId;
-                    Circle.NextID = circle_nextId;
-                    undo_clear.Clear();
-                    redo_modes.Push(current_mode);
-                    return;
+                    Move new_move = new Move(fig, point);
+                    move_undo.Push(new_move);
                 }
-                Figure current_fig = undo.Pop();
-                if (current_mode == "Move" && undo_point.Count == 0)
+            }
+        }
+        public void Set_ClearList(List<Figure> figures_,int trig,int rect,int circle)
+        {
+            Clear_Screen new_clear = new Clear_Screen(figures_,trig,rect,circle);
+            undo_clear.Push(new_clear);
+        }
+        public void Undo_Clear()
+        {
+            if(undo_clear.Count != 0)
+            {
+                Clear_Screen scrren_clear = undo_clear.Pop();
+                for(int i=0;i<scrren_clear.Figures.Count;i++)
                 {
-                    return;
+                    Instance.figures.Add(scrren_clear.Figures[i]);
                 }
-                Point point = new Point(1,1); 
-                try
-                {
-                    point = undo_point.Pop();
-                }
-                catch (Exception e){ }
-                int idx=0;
-                try
-                {
-                     idx = undo_indices.Pop();
-
-                }
-                catch (Exception e) { }
-                if (idx < 0)
-                {
-                    return;
-                }
-                if (current_mode == "Create")
-                {
-                    Instance.figures.Remove(current_fig);
-                    Instance.ChangeInidces(current_fig,idx,true);
-                    if(count >0)
-                    {
-                        second_count++;
-                    }
-                }
-                else if (current_mode == "Delete")
-                {
-                    Instance.figures.Insert(idx, current_fig);
-                    Instance.ChangeInidces(current_fig, idx+1, false);
-                }
-                else if(current_mode == "Move")
-                {
-                    current_fig.ChangePos(point.X, point.Y);
-                    redo.Push(current_fig);
-                    redo_point.Push(point);
-                    count++;
-                    return;
-                }
-                redo.Push(current_fig);
-                redo_modes.Push(current_mode);
-                redo_indices.Push(idx);
+                Rectangle.NextID = scrren_clear.Rect_NextID;
+                Triangle.NextID = scrren_clear.Trig_NextID;
+                Circle.NextID = scrren_clear.Circle_NextID;
+                redo_clear.Push(scrren_clear);
+            }
+        }
+        public void Redo_Clear()
+        {
+            if(redo_clear.Count != 0)
+            {
+                Clear_Screen scrren_clear = redo_clear.Pop();
+                Instance.figures.Clear();
+                Rectangle.NextID = 0;
+                Triangle.NextID = 0;
+                Circle.NextID = 0;
+                undo_clear.Push(scrren_clear);
             }
         }
 
-        public void Redo()
+        public void Undo_Move()
         {
-            // make three figs
-            // undo one figure 
-            // clear the screen
-            if(redo_modes.Count != 0)
+            if(move_undo.Count != 0)
             {
-                string current_mode = redo_modes.Pop();
-                if (current_mode == "Clear")
-                {
-                    for (int i = 0; i<Instance.figures.Count; i++)
-                    {
-                        undo_clear.Add(Instance.figures[i]);
-                    }
-                    Instance.figures.Clear();
-                    Rectangle.NextID = 0;
-                    Circle.NextID = 0;
-                    Triangle.NextID = 0;
-                    undo_modes.Push(current_mode);
-                    return;
-                }else if(redo.Count != 0 &&  redo_indices.Count != 0)
-                {
-                    Figure current_fig = redo.Pop();
-                    int idx = redo_indices.Pop();
+                Move move_object = move_undo.Pop();
+                move_object.Fig.ChangePos(move_object.Point.X, move_object.Point.Y);
+                move_redo.Push(move_object);
+            }
+        }
+        public void Redo_Move()
+        {
+            if(move_redo.Count != 0)
+            {
+                Move move_object = move_redo.Pop();
+                move_object.Fig.ChangePos(move_object.Point.X, move_object.Point.Y);
+                move_undo.Push(move_object);
 
-                    Point point = new Point(1, 1);
+            }
+        }
+        public void Undo_Create_Delete()
+        {
+            //1. Create- Figure,index,mode
+            //2. Delete - Figure, index, mode
+            if (create_delete_undo.Count != 0)
+            {
 
-                    try
-                    {
-                        point = redo_point.Pop();
-                    }
-                    catch(Exception e) { }
-                    if (current_mode == "Create")
-                    {
-                        try
-                        {
-                            Instance.figures.Insert(idx, current_fig);
-                            Instance.ChangeInidces(current_fig, idx+1, false);
-                        }
-                        catch (ArgumentOutOfRangeException)
-                        {
-                            for(int i = 0; i<undo_clear.Count; i++)
-                            {
-                                Instance.figures.Add(undo_clear[i]);
-                            }
-                            redo_modes.Push(current_mode);
-                            redo.Push(current_fig);
-                            redo_indices.Push(idx);
-                            undo_clear.Clear();
-                            return;
-                        }
-                        
-                        
-                    }
-                    else if (current_mode == "Delete")
-                    {
-                        Instance.figures.Remove(current_fig);
-                        Instance.ChangeInidces(current_fig, idx, true);
-                    }
-                    else if (current_mode == "Move")
-                    {
-                        current_fig.ChangePos(point.X, point.Y);
-                        undo.Push(current_fig);
-                        undo_point.Push(point);
-                        return;
-                    }
-                    undo.Push(current_fig);
-                    undo_modes.Push(current_mode);
-                    undo_indices.Push(idx);
+                Create_Delete undo_object = create_delete_undo.Pop();
+                if (undo_object.Mode == "Delete")
+                {
+                    Instance.figures.Remove(undo_object.Fig);
+                    Instance.ChangeInidces(undo_object.Fig, undo_object.Index, true);
                 }
-            }   
+                else if (undo_object.Mode == "Create")
+                {
+                    Instance.ChangeInidces(undo_object.Fig, undo_object.Index, false);
+                    Instance.figures.Insert(undo_object.Index, undo_object.Fig);
+                }
+                create_delete_redo.Push(undo_object);
+            }
 
         }
-        
+        public void Redo_Create_Delete()
+        {
+            if(create_delete_redo.Count != 0)
+            {
+                Create_Delete redo_object = create_delete_redo.Pop();
+                if (redo_object.Mode == "Create")
+                {
+                    Instance.figures.Remove(redo_object.Fig);
+                    Instance.ChangeInidces(redo_object.Fig, redo_object.Index, true);
+                }
+                else if (redo_object.Mode == "Delete")
+                {
+                    Instance.ChangeInidces(redo_object.Fig, redo_object.Index, false);
+                    Instance.figures.Insert(redo_object.Index, redo_object.Fig);
+                }
+                create_delete_undo.Push(redo_object);
+            }
+        }
     }
 }

@@ -20,9 +20,7 @@ namespace EndSemensterProject
                 {
                     if (Instance.figures[i].HitTest(new Point(e.X, e.Y)))
                     {
-                        Instance.redo_undo.undo_modes.Push("Delete");
-                        Instance.redo_undo.undo.Push(Instance.figures[i]);
-                        Instance.redo_undo.undo_indices.Push(i);
+                        Instance.redo_undo.Set_ValuesCreateDelete(Instance.figures[i], i, "Delete");
                         Instance.figures.Remove(Instance.figures[i]);
                         if (i != Instance.figures.Count)
                         {

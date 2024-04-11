@@ -22,9 +22,7 @@ namespace EndSemensterProject
                     {
                         Instance.draggingShape = Instance.figures[i];
                         Instance.DragStart = new Point(e.X - Instance.figures[i].X, e.Y - Instance.figures[i].Y);
-                        Instance.redo_undo.undo_point.Push(new Point(Instance.figures[i].X, Instance.figures[i].Y));
-                        Instance.redo_undo.undo_modes.Push("Move");
-                        Instance.redo_undo.undo.Push(Instance.draggingShape);
+                        Instance.redo_undo.Set_ValueMove(Instance.draggingShape, new Point(Instance.figures[i].X, Instance.figures[i].Y));
                         break;
                     }
                 }
@@ -36,22 +34,8 @@ namespace EndSemensterProject
             {
                 Instance.draggingShape.ChangePos(e.X - Instance.DragStart.X, e.Y - Instance.DragStart.Y);
                 Point current_point = new Point(e.X - Instance.DragStart.X, e.Y - Instance.DragStart.Y);
-                if (Instance.redo_undo.undo_point.Count != 0)
-                {
-                    Point previous_point = Instance.redo_undo.undo_point.Peek();
-                    if (Math.Abs((previous_point.X + previous_point.Y) - (current_point.X + current_point.Y)) > 20)
-                    {
-                        Instance.redo_undo.undo_point.Push(current_point);
-                        Instance.redo_undo.undo_modes.Push("Move");
-                        Instance.redo_undo.undo.Push(Instance.draggingShape);
-                    }
-                }
-                else
-                {
-                    Instance.redo_undo.undo_point.Push(current_point);
-                    Instance.redo_undo.undo_modes.Push("Move");
-                    Instance.redo_undo.undo.Push(Instance.draggingShape);
-                }
+                Instance.redo_undo.Set_ValueMove(Instance.draggingShape,current_point);
+                
                 Instance.Invalidate();
             }
             foreach (Figure fig in Instance.figures)
