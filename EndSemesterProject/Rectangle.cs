@@ -15,11 +15,30 @@ namespace EndSemesterProject
         public static int NextID = 0;
         public int ID { get; set; }
         [JsonConstructor]
-        public Rectangle(int x, int y, Color figurecolor, Color figure_outcolor, int width, int height) : base(x, y, figurecolor, figure_outcolor)
+        public Rectangle(int x, int y, Color figurecolor, Color figure_outcolor, int width, int height,bool garbage=false) : base(x, y, figurecolor, figure_outcolor)
         {
             this.Width = width;
             this.Height= height;
-            ID = NextID++;
+            if (!garbage)
+            {
+                ID = NextID++;
+            }
+        }
+        public override bool Equals(object? rect)
+        {
+            if(rect == null || GetType() != rect.GetType())
+            {
+                return false;
+            }
+            Rectangle rect1 = (Rectangle)rect;
+            return this.Width == rect1.Width &&
+                this.Height == rect1.Height
+                && rect1.FigureColor == this.FigureColor
+                && rect1.Figure_outColor == this.Figure_outColor;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Width, Height,FigureColor,FigureColor);
         }
         protected override double GetArea()
         {

@@ -32,10 +32,10 @@ namespace EndSemesterProject
         private void button1_Click(object sender, EventArgs e)
         {
             fromInstance.Rect_Width = textbox.GiveValue(rectangle_Width, "Please enter a valid number for rectangle width!\nA default value of 50 is set instead!");
-            fromInstance.Rect_Height =  textbox.GiveValue(rectangle_Height, "Please enter a valid number for rectangle helight!\nA default value of 50 is set instead!");
+            fromInstance.Rect_Height = textbox.GiveValue(rectangle_Height, "Please enter a valid number for rectangle helight!\nA default value of 50 is set instead!");
             fromInstance.Triangle_Side1 = textbox.GiveValue(triangle_Side1, "Please enter a valid number for triangle side1!\nA default value of 50 is set instead!");
-            fromInstance.Triangle_Side2 =  textbox.GiveValue(triangle_Side2, "Please enter a valid number for triangle side2!\nA default value of 50 is set instead!");
-            fromInstance.Triangle_Side3 =textbox.GiveValue(triangle_Side3, "Please enter a valid number for triangle side3!\nA default value of 50 is set instead!");
+            fromInstance.Triangle_Side2 = textbox.GiveValue(triangle_Side2, "Please enter a valid number for triangle side2!\nA default value of 50 is set instead!");
+            fromInstance.Triangle_Side3 = textbox.GiveValue(triangle_Side3, "Please enter a valid number for triangle side3!\nA default value of 50 is set instead!");
             fromInstance.Circle_Radius = textbox.GiveValue(circle_Radius, "Please enter a valid number for circle radius!\nA default value of 50 is set instead!");
             fromInstance.Rect_outColor = textbox.ConvertToColor(rectangle_outColor.Text);
             fromInstance.Triangle_outColor = textbox.ConvertToColor(triangle_outColor.Text);
@@ -53,8 +53,8 @@ namespace EndSemesterProject
                 try
                 {
 
-                    string jsonString =File.ReadAllText(filepath);
-                    List<Figure> figs =  JsonSerializer.Deserialize<List<Figure>>(jsonString, options);
+                    string jsonString = File.ReadAllText(filepath);
+                    List<Figure> figs = JsonSerializer.Deserialize<List<Figure>>(jsonString, options);
                     foreach (Figure f in figs)
                     {
                         fromInstance.figures.Add(f);
@@ -76,21 +76,23 @@ namespace EndSemesterProject
             saveFileDialog.FileName = "MyFigures.txt";
             saveFileDialog.Filter = "Text Documents (*.txt)|*.txt";
 
-            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 string filepath = saveFileDialog.FileName;
                 try
                 {
-                    string jsonString = JsonSerializer.Serialize(fromInstance.figures, options); 
+                    string jsonString = JsonSerializer.Serialize(fromInstance.figures, options);
                     File.WriteAllText(filepath, jsonString);
                     MessageBox.Show("File saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                catch(IOException ex)
+                catch (IOException ex)
                 {
-                    MessageBox.Show($"An error occured while saving the file: {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                    MessageBox.Show($"An error occured while saving the file: {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             this.Close();
         }
+
+
     }
 }

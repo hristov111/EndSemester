@@ -15,10 +15,29 @@ namespace EndSemesterProject
         public static int NextID = 0;
         public int ID { get; set; }
         [JsonConstructor]
-        public Circle(int x, int y,Color figurecolor,Color figure_outcolor, int radius) :base(x,y,figurecolor,figure_outcolor)
+        public Circle(int x, int y,Color figurecolor,Color figure_outcolor, int radius,bool garbage = false) :base(x,y,figurecolor,figure_outcolor)
         {
             this.Radius = radius;
-            ID = NextID++;
+            if (!garbage)
+            {
+                ID = NextID++;
+            }
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if(obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Circle other = (Circle)obj;
+            return this.Radius == other.Radius &&
+                this.FigureColor == other.FigureColor &&
+                this.Figure_outColor == other.Figure_outColor;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(FigureColor, Figure_outColor,Radius);
         }
 
         protected override double GetArea()

@@ -20,13 +20,33 @@ namespace EndSemesterProject
         private PointF point3;
 
         [JsonConstructor]
-        public Triangle(int x, int y, Color figurecolor,Color figure_outcolor,int firstSide, int secondSide, int thirdSide) : base(x, y, figurecolor, figure_outcolor)
+        public Triangle(int x, int y, Color figurecolor,Color figure_outcolor,int firstSide, int secondSide, int thirdSide,bool garbage = false) : base(x, y, figurecolor, figure_outcolor)
         {
             this.FirstSide = firstSide;
             this.SecondSide = secondSide;
             this.ThirdSide = thirdSide;
-            ID = NextID++;
+            if (!garbage)
+            {
+                ID = NextID++;
+            }
             ChangePos(x,y);
+        }
+        public override bool Equals(object? obj)
+        {
+            if(obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+            Triangle trig = (Triangle)obj;
+            return this.FigureColor == trig.FigureColor &&
+                this.Figure_outColor == trig.Figure_outColor &&
+                this.FirstSide == trig.FirstSide &&
+                this.SecondSide == trig.SecondSide &&
+                this.ThirdSide == trig.ThirdSide;
+        }
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(FigureColor,Figure_outColor,FirstSide,SecondSide,ThirdSide);
         }
         public override void ChangePos(int x, int y)
         {

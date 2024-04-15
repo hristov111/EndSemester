@@ -34,7 +34,8 @@ namespace EndSemensterProject
                     Instance.currentFigure = new Circle(e.X, e.Y, Instance.currentColor, Instance.Circle_outColor, Instance.Circle_Radius);
                 }
                 Instance.figures.Add(Instance.currentFigure);
-                Instance.redo_undo.Set_ValuesCreateDelete(Instance.currentFigure,Instance.figures.Count-1, "Delete");
+                int idx = Instance.figures.Count - 1;
+                Instance.redo_undo.Set_ValuesCreateDelete(Instance.currentFigure,idx, "Delete");
                 Instance.Invalidate();
             }
         }

@@ -13,6 +13,8 @@ namespace EndSemesterProject
     public partial class SingleTriangle : Form
     {
         private Triangle Instance;
+        private Red_Undo Redo_undo;
+        private Triangle checking_trig;
         public Color Color { get; set; }
         public Color Outline { get; set; }
         public int FirstSide { get; set; }
@@ -20,10 +22,11 @@ namespace EndSemesterProject
         public int ThirdSide { get; set; }
         private int ID { get; set; }
         private CheckTextbox check_trig = new CheckTextbox();
-        public SingleTriangle(Triangle instance, Color color, Color outline, int firstSide, int secondSide, int thirdSide, int id)
+        public SingleTriangle(Red_Undo redo_undo, Triangle instance, Color color, Color outline, int firstSide, int secondSide, int thirdSide, int id)
         {
             InitializeComponent();
             this.Instance=instance;
+            this.Redo_undo = redo_undo;
             Color=color;
             Outline=outline;
             FirstSide=firstSide;
@@ -36,6 +39,8 @@ namespace EndSemesterProject
             second_side.Text = secondSide.ToString();
             third_side.Text = thirdSide.ToString();
             triangle_groupBox.Text +=$": {ID}";
+            checking_trig = new Triangle(Instance.X, Instance.Y,Color,Outline,FirstSide,SecondSide,ThirdSide,true);
+
 
         }
         private void triangle_button_Click(object sender, EventArgs e)
@@ -46,6 +51,7 @@ namespace EndSemesterProject
             Instance.SecondSide = check_trig.GiveValue(second_side, "Please enter a valid number for triangle's second side!\nA default value of 50 is set instead!");
             Instance.ThirdSide = check_trig.GiveValue(third_side, "Please enter a valid number for triangle's first side!\nA default value of 50 is set instead!");
             Instance.ChangePos(Instance.X, Instance.Y);
+            Redo_undo.SetValuesEdit(checking_trig, Instance);
             this.Close();
         }
        

@@ -222,13 +222,13 @@ namespace EndSemesterProject
 
         private void undo_button_Click(object sender, EventArgs e)
         {
-            redo_undo.Undo_Clear();
+            redo_undo.DetermineUndo_Method();
             Invalidate();
         }
 
         private void redo_button_Click(object sender, EventArgs e)
         {
-            redo_undo.Redo_Clear();
+            redo_undo.DetermineRedo_Method();
             Invalidate();
         }
     }
