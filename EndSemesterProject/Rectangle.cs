@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EndSemensterProject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace EndSemesterProject
         public static int NextID = 0;
         public int ID { get; set; }
         [JsonConstructor]
-        public Rectangle(int x, int y, Color figurecolor, Color figure_outcolor, int width, int height,bool garbage=false) : base(x, y, figurecolor, figure_outcolor)
+        public Rectangle(int x, int y, Color figurecolor, Color figure_outcolor, int width, int height,IDrawingStrategy drawingStrategy,bool garbage=false) : base(x, y, figurecolor, figure_outcolor, drawingStrategy)
         {
             this.Width = width;
             this.Height= height;
@@ -45,19 +46,7 @@ namespace EndSemesterProject
             return Width * Height;
         }
 
-        public override void DrawShape(Graphics g)
-        {
-            // Creating a brush to fill the rectangle
-            using(Brush brush = new SolidBrush(FigureColor))
-            {
-                g.FillRectangle(brush, X, Y, Width, Height);
-            }
-            using (Pen pen = new Pen(Figure_outColor))
-            {
-                g.DrawRectangle(pen, X,Y,Width,Height);
-            }
-
-        }
+ 
         // HitTest method to check if a point is inside the rectangle
         public override bool HitTest(Point point)
         {

@@ -37,7 +37,7 @@ namespace EndSemesterProject
             current_height.Text = Height.ToString();
             current_width.Text = Width.ToString();
             rect_groupbox.Text +=$": {ID}";
-            checking_rect = new Rectangle(Instance.X, Instance.Y,color, outline,width,height,true);
+            checking_rect = new Rectangle(Instance.X, Instance.Y,color, outline,width,height,null,true);
         }
 
         private void submit_button_Click(object sender, EventArgs e)

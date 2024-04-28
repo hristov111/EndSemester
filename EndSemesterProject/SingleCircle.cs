@@ -33,7 +33,7 @@ namespace EndSemesterProject
             current_outline.Text = Outline.ToString();
             current_radius.Text = Radius.ToString();
             circle_edit.Text +=$": {ID}";
-            checking_circle = new Circle(Instance.X, Instance.Y, Color, Outline, Radius, true);
+            checking_circle = new Circle(Instance.X, Instance.Y, Color, Outline, Radius,null, true);
         }
 
         private void circle_submit_Click(object sender, EventArgs e)

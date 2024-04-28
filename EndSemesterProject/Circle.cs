@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EndSemensterProject;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -15,7 +16,8 @@ namespace EndSemesterProject
         public static int NextID = 0;
         public int ID { get; set; }
         [JsonConstructor]
-        public Circle(int x, int y,Color figurecolor,Color figure_outcolor, int radius,bool garbage = false) :base(x,y,figurecolor,figure_outcolor)
+        public Circle(int x, int y,Color figurecolor,Color figure_outcolor, int radius,IDrawingStrategy drawingStrategy, bool garbage = false) 
+            :base(x,y,figurecolor,figure_outcolor, drawingStrategy)
         {
             this.Radius = radius;
             if (!garbage)
@@ -43,21 +45,6 @@ namespace EndSemesterProject
         protected override double GetArea()
         {
             return Math.PI * Radius * Radius;       
-        }
-        public override void DrawShape(Graphics g)
-        {
-            // Create a brush with tahe same color for filling the circle
-            using(Brush brush = new SolidBrush(FigureColor)) 
-            {
-                // Fill the circle with the color
-                g.FillEllipse(brush, X - Radius, Y-Radius, 2*Radius, 2*Radius);
-            }
-            // Create a pen with the same color for the outine
-            using (Pen pen = new Pen(Figure_outColor))
-            {
-                // Draw the outline of the circle with the color
-                g.DrawEllipse(pen, X - Radius, Y-Radius, 2*Radius, 2*Radius);
-            }
         }
         public override bool HitTest(Point point)
         {

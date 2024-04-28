@@ -15,12 +15,13 @@ namespace EndSemesterProject
         public int FirstSide { get; set; }
         public int SecondSide { get; set; }
         public int ThirdSide { get; set; }
-        private PointF point1;
-        private PointF point2;
-        private PointF point3;
+        public PointF point1;
+        public PointF point2;
+        public PointF point3;
 
         [JsonConstructor]
-        public Triangle(int x, int y, Color figurecolor,Color figure_outcolor,int firstSide, int secondSide, int thirdSide,bool garbage = false) : base(x, y, figurecolor, figure_outcolor)
+        public Triangle(int x, int y, Color figurecolor,Color figure_outcolor,int firstSide, int secondSide, int thirdSide, IDrawingStrategy drawingStrategy, bool garbage = false) 
+            : base(x, y, figurecolor, figure_outcolor, drawingStrategy)
         {
             this.FirstSide = firstSide;
             this.SecondSide = secondSide;
@@ -66,23 +67,6 @@ namespace EndSemesterProject
         private double Area(PointF p1, PointF p2, PointF p3)
         {
             return Math.Abs((p1.X * (p2.Y - p3.Y) + p2.X * (p3.Y - p1.Y) + p3.X * (p1.Y - p2.Y)) / 2.0);
-        }
-
-        public override void DrawShape(Graphics g)
-        {
-            PointF[] trianglePoints = { point1, point2, point3 };
-            // Creating a brush to fill the rectangle
-            using (Brush brush = new SolidBrush(FigureColor))
-            {
-                g.FillPolygon(brush, trianglePoints);
-            }
-            using (Pen pen = new Pen(Figure_outColor))
-            {
-                g.DrawLine(pen, point1, point2);
-                g.DrawLine(pen, point2, point3);
-                g.DrawLine(pen, point3,point1);
-            }
-
         }
         public override bool HitTest(Point point)
         {

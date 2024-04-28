@@ -39,7 +39,7 @@ namespace EndSemesterProject
             second_side.Text = secondSide.ToString();
             third_side.Text = thirdSide.ToString();
             triangle_groupBox.Text +=$": {ID}";
-            checking_trig = new Triangle(Instance.X, Instance.Y,Color,Outline,FirstSide,SecondSide,ThirdSide,true);
+            checking_trig = new Triangle(Instance.X, Instance.Y,Color,Outline,FirstSide,SecondSide,ThirdSide,null,true);
 
 
         }
