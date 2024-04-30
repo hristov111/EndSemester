@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Figures;
 
 namespace EndSemensterProject
 {
@@ -16,15 +17,12 @@ namespace EndSemensterProject
         {
             if (Instance.currentMode == "Move")
             {
-                for (int i = Instance.figures.Count - 1; i >= 0; i--)
+                var shape = Instance.figures.Where(figure => figure.HitTest(e.X, e.Y) == true).FirstOrDefault();
+                if (shape != default(Figure)) 
                 {
-                    if (Instance.figures[i].HitTest(new Point(e.X, e.Y)))
-                    {
-                        Instance.draggingShape = Instance.figures[i];
-                        Instance.DragStart = new Point(e.X - Instance.figures[i].X, e.Y - Instance.figures[i].Y);
-                        Instance.redo_undo.Set_ValueMove(Instance.draggingShape, new Point(Instance.figures[i].X, Instance.figures[i].Y));
-                        break;
-                    }
+                    Instance.draggingShape = shape;
+                    Instance.DragStart = new Point(e.X - shape.X, e.Y - shape.Y);
+                    Instance.redo_undo.Set_ValueMove(Instance.draggingShape, new Point(shape.X, shape.Y));
                 }
             }
         }
@@ -38,23 +36,13 @@ namespace EndSemensterProject
                 
                 Instance.Invalidate();
             }
-            foreach (Figure fig in Instance.figures)
+            var bool1 = Instance.figures.Where(fig => fig.HitTest(e.X,e.Y) == true).ToList().Any();
+            if (bool1)
             {
-                if (fig.HitTest(new Point(e.X, e.Y)))
-                {
-                    if (Instance.Cursor != Cursors.Hand)
-                    {
-                        Instance.Cursor = Cursors.Hand;
-                    }
-                    else
-                    {
-                        if (Instance.Cursor != Cursors.Default)
-                        {
-                            Instance.Cursor = Cursors.Default;
-                        }
-                    }
-                }
+                Instance.Cursor = Instance.Cursor != Cursors.Hand?Cursors.Hand:Instance.Cursor != Cursors.Default?Cursors.Default:Cursors.No;
             }
+
+
         }
     }
 }

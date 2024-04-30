@@ -2,6 +2,7 @@ using EndSemensterProject;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.CompilerServices;
+using Figures;
 
 namespace EndSemesterProject
 {
@@ -10,9 +11,9 @@ namespace EndSemesterProject
         // width: 1387
         //height:  686
         public delegate void CommandMethod();
-        public List<Figure> figures = new List<Figure>();
+        public List<Figures.Figure> figures = new List<Figures.Figure>();
         private List<CommandMethod> commands = new List<CommandMethod>();
-        public Color currentColor = Color.Empty;
+        public string currentColor = null;
         // setting default properties
         public int Rect_Width { get; set; } = 50;
         public int Rect_Height { get; set; } = 50;
@@ -22,9 +23,9 @@ namespace EndSemesterProject
         public int Circle_Radius { get; set; } = 50;
 
         // black is the default outline color
-        public Color Rect_outColor { get; set; } = Color.Black;
-        public Color Triangle_outColor { get; set; } = Color.Black;
-        public Color Circle_outColor { get; set; } = Color.Black;
+        public string Rect_outColor { get; set; } = "black";
+        public string Triangle_outColor { get; set; } = "black";
+        public string Circle_outColor { get; set; } = "black";
         public int MouseX { get; set; }
         public int MouseY { get; set; }
         public Figure currentFigure = null;
@@ -41,6 +42,8 @@ namespace EndSemesterProject
         private DeleteMember DELETE_figure;
         private MoveMember MOVE_figure;
         private EditMember EDIT_figure;
+
+        Draw Pen = new Draw();
         public Form1()
         {
             InitializeComponent();
@@ -77,80 +80,23 @@ namespace EndSemesterProject
                 DELETE_figure.Execute(e);
             }
         }
-        public void ChangeInidces(Figure obj, int idx,bool deleting)
+        public void ChangeInidces(Type obj, int idx,bool deleting)
         {
+
+            // find all indices of the specified figure type
+            var figureIndices = figures.Select((figure,index) => new { Figure = figure, Index = index})
+                .Where(x => x.Index >=idx && x.Figure.GetType() == obj)
+                .Select(x => x.Index)
+                .ToList();
             int last = 0;
-            if (obj is Rectangle)
+            foreach (var index in figureIndices)
             {
-                for (int i = idx; i<figures.Count; i++)
-                {
-                    if (figures[i] is Rectangle)
-                    {
-                        Rectangle rect = (Rectangle)figures[i];
-                        if (deleting)
-                        {
-                            rect.ID--;
-                        }
-                        else
-                        {
-                            rect.ID++;
-                        }
-                    }
-                    if (i == figures.Count -1)
-                    {
-                        last = i;
-                    }
-                }
-                Rectangle.NextID = last+1;
-
+                figures[index].ID += deleting ? -1 : 1;
+                last = index;
             }
-            else if (obj is Triangle)
+            if(obj.GetProperty("NextID") != null)
             {
-                for (int i = idx; i<figures.Count; i++)
-                {
-                    if (figures[i] is Triangle)
-                    {
-                        Triangle trig = (Triangle)figures[i];
-                        if (deleting)
-                        {
-                            trig.ID--;
-                        }
-                        else
-                        {
-                            trig.ID++;
-                        }
-                    }
-                    if (i == figures.Count -1)
-                    {
-                        last = i;
-                    }
-                }
-                Triangle.NextID = last+1;
-
-            }
-            else if (obj is Circle)
-            {
-                for (int i = idx; i<figures.Count; i++)
-                {
-                    if (figures[i] is Circle)
-                    {
-                        Circle circ = (Circle)figures[i];
-                        if (deleting)
-                        {
-                            circ.ID--;
-                        }
-                        else
-                        {
-                            circ.ID++;
-                        }
-                    }
-                    if (i == figures.Count -1)
-                    {
-                        last = i;
-                    }
-                }
-                Circle.NextID = last+1;
-
+                obj.GetProperty("NextID").SetValue(null, last + 1);
             }
 
         }
@@ -167,7 +113,8 @@ namespace EndSemesterProject
             // Draw each circle in the list
             foreach (Figure figure in figures)
             {
-                figure.DrawShape(e.Graphics);
+                Pen.Draw_shape(e.Graphics, figure);
+                
             } 
 
             // OPtional:
@@ -211,9 +158,9 @@ namespace EndSemesterProject
 
         private void clear_button_Click(object sender, EventArgs e)
         {
-            redo_undo.Set_ClearList(figures, Triangle.NextID, Rectangle.NextID, Circle.NextID);
+            redo_undo.Set_ClearList(figures, Triangle.NextID, Figures.Rectangle.NextID, Circle.NextID);
             figures.Clear();
-            Rectangle.NextID = 0;
+            Figures.Rectangle.NextID = 0;
             Triangle.NextID = 0;
             Circle.NextID = 0;
             screen_remove++;

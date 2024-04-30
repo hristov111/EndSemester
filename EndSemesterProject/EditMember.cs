@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Figures;
 
 namespace EndSemensterProject
 {
@@ -18,16 +19,8 @@ namespace EndSemensterProject
         {
             if (Instance.currentMode == "Edit")
             {
-                Figure current_Fig = null;
-                for (int i = Instance.figures.Count - 1; i >= 0; i--)
-                {
-                    if (Instance.figures[i].HitTest(new Point(e.X, e.Y)))
-                    {
-                        current_Fig = Instance.figures[i];
-                        break;
-                    }
-                }
-                if (current_Fig != null)
+                var current_Fig = Instance.figures.Where(figure => figure.HitTest(e.X,e.Y) == true).FirstOrDefault();
+                if (current_Fig != default(Figure))
                 {
                     if (current_Fig is Triangle)
                     {
@@ -38,7 +31,7 @@ namespace EndSemensterProject
                     }
                     else if (current_Fig.GetType().Name == "Rectangle")
                     {
-                        EndSemesterProject.Rectangle curr_rect = current_Fig as EndSemesterProject.Rectangle;
+                        Figures.Rectangle curr_rect = current_Fig as Figures.Rectangle;
                         SingleRectangle rect_edit = new SingleRectangle(Instance.redo_undo,curr_rect, curr_rect.FigureColor, curr_rect.Figure_outColor, curr_rect.Width, curr_rect.Height, curr_rect.ID);
                         rect_edit.ShowDialog();
                         Instance.Invalidate();

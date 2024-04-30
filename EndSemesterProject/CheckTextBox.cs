@@ -10,28 +10,21 @@ namespace EndSemesterProject
     public class CheckTextbox
     {
         public CheckTextbox(){}
-        public Color ConvertToColor(string color)
+        public string ConvertToColor(string color)
         {
-
             color = color.ToLower();
-            if (color.Contains('[') && color.Contains(']'))
-            {
-                return ConvertToColor(color.Substring(color.IndexOf('[')+1, color.IndexOf(']')-color.IndexOf('[')-1));
-            }
             switch (color)
             {
                 case "red":
-                    return Color.Red;
+                    return "red";
                 case "blue":
-                    return Color.Blue;
+                    return "blue";
                 case "green":
-                    return Color.Green;
+                    return "green";
                 case "yellow":
-                    return Color.Yellow;
-                case "black":
-                    return Color.Black;
+                    return "yellow";
                 default:
-                    return Color.Aqua;
+                    return "black";
             }
         }
 

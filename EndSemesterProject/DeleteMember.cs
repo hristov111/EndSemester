@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Figures; 
 
 namespace EndSemensterProject
 {
@@ -16,22 +17,17 @@ namespace EndSemensterProject
         {
             if (Instance.currentMode == "Delete")
             {
-                for (int i = Instance.figures.Count - 1; i >= 0; i--)
+                var indexToRemove = Instance.figures.Select((fig, idx) => new { Figure = fig, Index = idx, HitTestPassed = fig.HitTest(e.X, e.Y) }).Where(x => x.HitTestPassed == true).Select(x => x.Index).ToList();
+                indexToRemove.ForEach(tp=>
                 {
-                    if (Instance.figures[i].HitTest(new Point(e.X, e.Y)))
+                    Instance.redo_undo.Set_ValuesCreateDelete(Instance.figures[tp], tp, "Create");
+                    Instance.figures.RemoveAt(tp);
+                    if (tp != Instance.figures.Count)
                     {
-                        Instance.redo_undo.Set_ValuesCreateDelete(Instance.figures[i], i, "Create");
-                        Instance.figures.RemoveAt(i);
-                        if (i != Instance.figures.Count)
-                        {
-                            Instance.ChangeInidces(Instance.figures[i], i, true);
-                        }
-                        Instance.Invalidate();
-                        break;
-
-
+                        Instance.ChangeInidces(Instance.figures[tp].GetType(), tp, true);
                     }
-                }
+                    Instance.Invalidate();
+                });
             }
         }
     }

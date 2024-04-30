@@ -8,21 +8,22 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Figures;
 
 namespace EndSemesterProject
 {
     public partial class SingleRectangle : Form
     {
-        private Rectangle Instance;
+        private Figures.Rectangle Instance;
         private Red_Undo Redo_undo;
-        private Rectangle checking_rect;
-        public Color Color { get; set; }
-        public Color Outline { get; set; }
+        private Figures.Rectangle checking_rect;
+        public string Color { get; set; }
+        public string Outline { get; set; }
         public int Height { get; set; }
         public int Width { get; set; }
         private int ID { get; set; }
         private CheckTextbox check_rect = new CheckTextbox();
-        public SingleRectangle(Red_Undo redo_undo,Rectangle instance, Color color, Color outline, int width, int height, int id)
+        public SingleRectangle(Red_Undo redo_undo,Figures.Rectangle instance, string color, string outline, int width, int height, int id)
         {
             InitializeComponent();
             this.Instance=instance;
@@ -37,7 +38,7 @@ namespace EndSemesterProject
             current_height.Text = Height.ToString();
             current_width.Text = Width.ToString();
             rect_groupbox.Text +=$": {ID}";
-            checking_rect = new Rectangle(Instance.X, Instance.Y,color, outline,width,height,null,true);
+            checking_rect = new Figures.Rectangle(Instance.X, Instance.Y,color, outline,width,height,true);
         }
 
         private void submit_button_Click(object sender, EventArgs e)

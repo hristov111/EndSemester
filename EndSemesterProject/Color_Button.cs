@@ -18,7 +18,11 @@ namespace EndSemesterProject
         protected override void OnClick(EventArgs e)
         {
             base.OnClick(e);
-            Instance.currentColor = this.BackColor;
+            Instance.currentColor = this.BackColor == Color.Red
+                ? "red" : this.BackColor == Color.Blue
+                ? "blue" : this.BackColor == Color.Yellow
+                ? "yellow" : this.BackColor == Color.Green 
+                ? "green" : "black";
         }
         protected override void OnMouseEnter(EventArgs e)
         {

@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using EndSemensterProject;
+using Figures; 
 
 namespace EndSemesterProject
 {
@@ -71,17 +72,17 @@ namespace EndSemesterProject
         /// </summary>
        private interface IFigure
         {
-            Color Color { get; set; }
-            Color OutColor { get; set; }
+            string Color { get; set; }
+            string OutColor { get; set; }
         }
         public struct TrigEdit:IFigure
         {
-            public Color Color { get; set; }
-            public Color OutColor { get; set; }
+            public string Color { get; set; }
+            public string OutColor { get; set; }
             public int Trig_Side1;
             public int Trig_Side2;
             public int Trig_Side3;
-            public TrigEdit(Color color,Color outColor,int side1, int side2, int side3)
+            public TrigEdit(string color,string outColor,int side1, int side2, int side3)
             {
                 Color = color;
                 OutColor = outColor;
@@ -92,11 +93,11 @@ namespace EndSemesterProject
         }
         public struct RectEdit:IFigure
         {
-            public Color Color { get; set; }
-            public Color OutColor { get; set; }
+            public string Color { get; set; }
+            public string OutColor { get; set; }
             public int Rect_Width;
             public int Rect_Height;
-            public RectEdit(Color color, Color outColor, int width,int height)
+            public RectEdit(string color,string outColor, int width,int height)
             {
                 Color = color;
                 OutColor = outColor;
@@ -106,10 +107,10 @@ namespace EndSemesterProject
         }
         public struct CircleEdit:IFigure
         {
-            public Color Color { get; set; }
-            public Color OutColor { get; set; }
+            public string Color { get; set; }
+            public string OutColor { get; set; }
             public int Circle_Radius;
-            public CircleEdit(Color color, Color outColor, int radius)
+            public CircleEdit(string color, string outColor, int radius)
             {
                 Color = color;
                 OutColor = outColor;
@@ -132,10 +133,10 @@ namespace EndSemesterProject
         } 
         public void SetValuesEdit(Figure fig,Figure updated)
         {
-            if(fig is Rectangle)
+            if(fig is Figures.Rectangle)
             {
-                Rectangle rect = (Rectangle)fig;
-                Rectangle updated_rect = (Rectangle)updated;
+                Figures.Rectangle rect = (Figures.Rectangle)fig;
+                Figures.Rectangle updated_rect = (Figures.Rectangle)updated;
                 if(!rect.Equals(updated_rect))
                 {
                     IFigure new_rect = new RectEdit(rect.FigureColor, rect.Figure_outColor, rect.Width, rect.Height);
@@ -279,7 +280,7 @@ namespace EndSemesterProject
                 if (fig is RectEdit)
                 {
                     RectEdit rect = (RectEdit)fig;
-                    Rectangle up = (Rectangle)updated;
+                    Figures.Rectangle up = (Figures.Rectangle)updated;
                     redo_edit_current.Push(rect);
                     redo_edit_updated.Push(up);
                     up.Height = rect.Rect_Height;
@@ -317,7 +318,7 @@ namespace EndSemesterProject
                 {
                     Instance.figures.Add(scrren_clear.Figures[i]);
                 }
-                Rectangle.NextID = scrren_clear.Rect_NextID;
+                Figures.Rectangle.NextID = scrren_clear.Rect_NextID;
                 Triangle.NextID = scrren_clear.Trig_NextID;
                 Circle.NextID = scrren_clear.Circle_NextID;
                 redo_clear.Push(scrren_clear);
@@ -329,7 +330,7 @@ namespace EndSemesterProject
             {
                 Clear_Screen scrren_clear = redo_clear.Pop();
                 Instance.figures.Clear();
-                Rectangle.NextID = 0;
+                Figures.Rectangle.NextID = 0;
                 Triangle.NextID = 0;
                 Circle.NextID = 0;
                 undo_clear.Push(scrren_clear);
@@ -367,11 +368,11 @@ namespace EndSemesterProject
                 if (undo_object.Mode == "Delete")
                 {
                     Instance.figures.RemoveAt(undo_object.Index);
-                    Instance.ChangeInidces(undo_object.Fig, undo_object.Index, true);
+                    Instance.ChangeInidces(undo_object.Fig.GetType(), undo_object.Index, true);
                 }
                 else if (undo_object.Mode == "Create")
                 {
-                    Instance.ChangeInidces(undo_object.Fig, undo_object.Index, false);
+                    Instance.ChangeInidces(undo_object.Fig.GetType(), undo_object.Index, false);
                     Instance.figures.Insert(undo_object.Index, undo_object.Fig);
                 }
                 create_delete_redo.Push(undo_object);
@@ -386,11 +387,11 @@ namespace EndSemesterProject
                 if (redo_object.Mode == "Create")
                 {
                     Instance.figures.RemoveAt(redo_object.Index);
-                    Instance.ChangeInidces(redo_object.Fig, redo_object.Index, true);
+                    Instance.ChangeInidces(redo_object.Fig.GetType(), redo_object.Index, true);
                 }
                 else if (redo_object.Mode == "Delete")
                 {
-                    Instance.ChangeInidces(redo_object.Fig, redo_object.Index, false);
+                    Instance.ChangeInidces(redo_object.Fig.GetType(), redo_object.Index, false);
                     Instance.figures.Insert(redo_object.Index, redo_object.Fig);
                 }
                 create_delete_undo.Push(redo_object);

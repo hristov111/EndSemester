@@ -9,6 +9,5 @@ namespace EndSemensterProject
     public interface IDrawingStrategy
     {
         void DrawShape(Graphics g, Color FigureColor, Color Figure_outColor, int X, int Y);
-
     }
 }

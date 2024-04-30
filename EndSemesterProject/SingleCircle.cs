@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Figures;
 
 namespace EndSemesterProject
 {
@@ -15,12 +16,12 @@ namespace EndSemesterProject
         private Circle Instance;
         private Red_Undo Redo_undo;
         private Circle checking_circle;
-        public Color Color { get; set; }
-        public Color Outline { get; set; }
+        public string Color { get; set; }
+        public string Outline { get; set; }
         public int Radius { get; set; }
         private int ID { get; set; }
         private CheckTextbox check_circle = new CheckTextbox();
-        public SingleCircle(Red_Undo redo_undo, Circle instance, Color color, Color outline, int radius, int id)
+        public SingleCircle(Red_Undo redo_undo, Circle instance, string color, string outline, int radius, int id)
         {
             InitializeComponent();
             this.Redo_undo = redo_undo;
@@ -33,7 +34,7 @@ namespace EndSemesterProject
             current_outline.Text = Outline.ToString();
             current_radius.Text = Radius.ToString();
             circle_edit.Text +=$": {ID}";
-            checking_circle = new Circle(Instance.X, Instance.Y, Color, Outline, Radius,null, true);
+            checking_circle = new Circle(Instance.X, Instance.Y, Color, Outline, Radius, true);
         }
 
         private void circle_submit_Click(object sender, EventArgs e)

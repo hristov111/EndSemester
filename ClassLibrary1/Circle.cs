@@ -1,23 +1,20 @@
-﻿using EndSemensterProject;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Security.Policy;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace EndSemesterProject
+namespace Figures
 {
-    public class Circle:Figure
+    public class Circle : Figure
     {
         public int Radius { get; set; }
         public static int NextID = 0;
-        public int ID { get; set; }
-        [JsonConstructor]
-        public Circle(int x, int y,Color figurecolor,Color figure_outcolor, int radius,IDrawingStrategy drawingStrategy, bool garbage = false) 
-            :base(x,y,figurecolor,figure_outcolor, drawingStrategy)
+
+        public Circle() { }
+        public Circle(int x, int y, string figurecolor, string figure_outcolor, int radius, bool garbage = false)
+            : base(x, y, figurecolor, figure_outcolor)
         {
             this.Radius = radius;
             if (!garbage)
@@ -28,7 +25,7 @@ namespace EndSemesterProject
 
         public override bool Equals(object? obj)
         {
-            if(obj == null || GetType() != obj.GetType())
+            if (obj == null || GetType() != obj.GetType())
             {
                 return false;
             }
@@ -39,17 +36,17 @@ namespace EndSemesterProject
         }
         public override int GetHashCode()
         {
-            return HashCode.Combine(FigureColor, Figure_outColor,Radius);
+            return HashCode.Combine(FigureColor, Figure_outColor, Radius);
         }
 
         protected override double GetArea()
         {
-            return Math.PI * Radius * Radius;       
+            return Math.PI * Radius * Radius;
         }
-        public override bool HitTest(Point point)
+        public override bool HitTest(int x, int y)
         {
             // Calculate the distance from the point to the circle's center
-            double distance = Math.Sqrt((point.X - X) * (point.X - X) + (point.Y - Y) * (point.Y-Y));
+            double distance = Math.Sqrt((x - X) * (x - X) + (y - Y) * (y - Y));
 
             // if the distance is less than or equal to the radius, the point is inside the cirle
             return distance < Radius;

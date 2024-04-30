@@ -9,6 +9,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.Json;
+using Figures;
+using System.Xml.Serialization;
+using System.IO;
+using EndSemensterProject;
 
 namespace EndSemesterProject
 {
@@ -16,12 +20,7 @@ namespace EndSemesterProject
     {
         private Form1 fromInstance;
         private CheckTextbox textbox = new CheckTextbox();
-        public JsonSerializerOptions options = new JsonSerializerOptions
-        {
-            WriteIndented = true,
-            IncludeFields = true,
-            Converters = { new FigureConverter(), new ColorConverter() }
-        };
+        FigureSerializer serializer;
 
         public Form2(Form1 form1)
         {
@@ -45,53 +44,18 @@ namespace EndSemesterProject
 
         private void load_fromFile_Button_Click(object sender, EventArgs e)
         {
-            OpenFileDialog newFileDialog = new OpenFileDialog();
-            newFileDialog.Filter = "Text Documents (*.txt)|*.txt";
-            if (newFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filepath = newFileDialog.FileName;
-                try
-                {
-
-                    string jsonString = File.ReadAllText(filepath);
-                    List<Figure> figs = JsonSerializer.Deserialize<List<Figure>>(jsonString, options);
-                    foreach (Figure f in figs)
-                    {
-                        fromInstance.figures.Add(f);
-                    }
-                    MessageBox.Show("File loaded successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (IOException ex)
-                {
-                    MessageBox.Show($"An error occured while reading the file {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            serializer = new FigureSerializer();
+            fromInstance.figures= serializer.LoadFigures();
             this.Close();
         }
 
         private void save_toFile_Button_Click(object sender, EventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-
-            saveFileDialog.FileName = "MyFigures.txt";
-            saveFileDialog.Filter = "Text Documents (*.txt)|*.txt";
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filepath = saveFileDialog.FileName;
-                try
-                {
-                    string jsonString = JsonSerializer.Serialize(fromInstance.figures, options);
-                    File.WriteAllText(filepath, jsonString);
-                    MessageBox.Show("File saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                catch (IOException ex)
-                {
-                    MessageBox.Show($"An error occured while saving the file: {ex}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
+            serializer = new FigureSerializer();
+            serializer.SaveFigures(fromInstance.figures);
             this.Close();
         }
+      
 
 
     }
