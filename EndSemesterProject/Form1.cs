@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Runtime.CompilerServices;
 using Figures;
+using System.Timers;
 
 namespace EndSemesterProject
 {
@@ -44,17 +45,20 @@ namespace EndSemesterProject
         private EditMember EDIT_figure;
 
         Draw Pen = new Draw();
+        Form2 second_form;
+        private bool isAlive_ = false;
+        private System.Timers.Timer animationTimer;
         public Form1()
         {
             InitializeComponent();
             this.DoubleBuffered = true;
             Color_Button.Instance = this;
-            redo_undo =  new Red_Undo(this);
+            redo_undo = new Red_Undo(this);
             CREATE_figure = new CreateMember(this);
             DELETE_figure = new DeleteMember(this);
             MOVE_figure = new MoveMember(this);
             EDIT_figure = new EditMember(this);
-            Color_Button.Instance2  = CREATE_figure;
+            Color_Button.Instance2 = CREATE_figure;
         }
 
 
@@ -80,12 +84,12 @@ namespace EndSemesterProject
                 DELETE_figure.Execute(e);
             }
         }
-        public void ChangeInidces(Type obj, int idx,bool deleting)
+        public void ChangeInidces(Type obj, int idx, bool deleting)
         {
 
             // find all indices of the specified figure type
-            var figureIndices = figures.Select((figure,index) => new { Figure = figure, Index = index})
-                .Where(x => x.Index >=idx && x.Figure.GetType() == obj)
+            var figureIndices = figures.Select((figure, index) => new { Figure = figure, Index = index })
+                .Where(x => x.Index >= idx && x.Figure.GetType() == obj)
                 .Select(x => x.Index)
                 .ToList();
             int last = 0;
@@ -94,40 +98,120 @@ namespace EndSemesterProject
                 figures[index].ID += deleting ? -1 : 1;
                 last = index;
             }
-            if(obj.GetProperty("NextID") != null)
+            if (obj.GetProperty("NextID") != null)
             {
                 obj.GetProperty("NextID").SetValue(null, last + 1);
             }
 
+        }
+        private void Alive_button()
+        {
+            isAlive_ = true;
+
+            animationTimer = new System.Timers.Timer();
+            animationTimer.Interval = 50;
+            animationTimer.Elapsed += Animation;
+
+            stop_Alive_button.Visible = true;
+            undo_button.Visible = false;
+            redo_button.Visible = false;
+            comboBox1.Visible = false;
+            mode1.Visible = false;
+            Invalidate();
+
+            animationTimer.Start();
+        }
+        private void Animation(object sender, ElapsedEventArgs e)
+        {
+            if (!isAlive_) 
+            {
+                animationTimer.Stop();
+                return;
+            }
+            foreach  (Figure fig in figures)
+            {
+                fig.MoveMember();
+                if(fig is Triangle)
+                {
+                    Triangle trig = (Triangle)fig;
+                    trig.ChangePos(trig.X, trig.Y);
+                }
+            }
+            Invalidate();
+        }
+        private void stop_Alive_button_Click(object sender, EventArgs e)
+        {
+            isAlive_ = false;
+            stop_Alive_button.Visible = false;
+            undo_button.Visible = true;
+            redo_button.Visible = true;
+            comboBox1.Visible = true;
+            mode1.Visible = true;
         }
 
         private void comboBox_TextChanged(object sender, EventArgs e)
         {
             currentMode = comboBox1.Text;
             MessageBox.Show($"Mode changed to {currentMode}!", "Warning!");
+            if (currentMode == "Alive")
+            {
+                Alive_button();
+            }
         }
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
-
             // Draw each circle in the list
             foreach (Figure figure in figures)
             {
                 Pen.Draw_shape(e.Graphics, figure);
-                
-            } 
 
-            // OPtional:
-            //foreach (var command in commands)
-            //{
-            //    command();
-            //}
+            }
         }
         public void options_button_Click(object sender, EventArgs e)
         {
-            Form2 second_form = new Form2(this);
+            second_form = new Form2(this);
             second_form.ShowDialog();
             Invalidate();
+        }
+        public void ChangeProperties(int rect_width, int rect_height, int trig_1, int trig_2,
+            int trig_3, int circle_radisus, string rect_out, string trig_out, string circle_out)
+        {
+            Rect_Width = rect_width;
+            Rect_Height = rect_height;
+            Triangle_Side1 = trig_1;
+            Triangle_Side2 = trig_2;
+            Triangle_Side3 = trig_3;
+            Circle_Radius = circle_radisus;
+            Rect_outColor = rect_out;
+            Triangle_outColor = trig_out;
+            Circle_outColor = circle_out;
+            foreach (Figure figure in figures)
+            {
+                if (figure is Figures.Rectangle)
+                {
+                    Figures.Rectangle rect = (Figures.Rectangle)figure;
+                    rect.Height = rect_height;
+                    rect.Width = rect_width;
+                    rect.Figure_outColor = rect_out;
+                }
+                else if (figure is Triangle)
+                {
+                    Triangle triangle = (Triangle)figure;
+                    triangle.FirstSide = trig_1;
+                    triangle.SecondSide = trig_2;
+                    triangle.ThirdSide = trig_3;
+                    triangle.Figure_outColor = trig_out;
+                    triangle.ChangePos(triangle.X, triangle.Y);
+
+                }
+                else if (figure is Circle)
+                {
+                    Circle circle = (Circle)figure;
+                    circle.Radius = circle_radisus;
+                    circle.Figure_outColor = circle_out;
+                }
+            }
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -138,9 +222,6 @@ namespace EndSemesterProject
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
             MOVE_figure.Execute(e);
-
-            // Optional:
-            //commands.Add(() => MOVE_figure.Execute(e));
         }
 
         private void Form1_MouseUp(object sender, MouseEventArgs e)
@@ -151,14 +232,14 @@ namespace EndSemesterProject
         private void Form1_DoubleClick(object sender, MouseEventArgs e)
         {
             EDIT_figure.Execute(e);
-
-            // Optional:
-            //commands.Add(() => EDIT_figure.Execute(e));
         }
 
         private void clear_button_Click(object sender, EventArgs e)
         {
-            redo_undo.Set_ClearList(figures, Triangle.NextID, Figures.Rectangle.NextID, Circle.NextID);
+            int trig = Triangle.NextID;
+            int rect = Figures.Rectangle.NextID;
+            int circle = Circle.NextID;
+            redo_undo.Set_ClearList(figures, trig, rect, circle);
             figures.Clear();
             Figures.Rectangle.NextID = 0;
             Triangle.NextID = 0;

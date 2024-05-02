@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -13,6 +14,12 @@ namespace EndSemesterProject
         public string ConvertToColor(string color)
         {
             color = color.ToLower();
+            var digits = color.Where(char.IsDigit);
+            if (digits.Any())
+            {
+                MessageBox.Show( "Numbers not allowed. Please enter a suitable color!", "Error");
+                return "black";
+            }
             switch (color)
             {
                 case "red":
@@ -53,12 +60,10 @@ namespace EndSemesterProject
         public bool check_Text(TextBox t)
         {
             string text = t.Text;
-            foreach (char c in text)
+            var letters = text.Where(char.IsLetter);
+            if (letters.Any())
             {
-                if (!char.IsDigit(c))
-                {
-                    return false;
-                }
+                return false;
             }
             return true;
         }

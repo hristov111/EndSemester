@@ -25,7 +25,7 @@ namespace EndSemensterProject
                 g.FillEllipse(brush, X - Radius, Y - Radius, 2 * Radius, 2 * Radius);
             }
             // Create a pen with the same color for the outine
-            using (Pen pen = new Pen(Figure_outColor))
+            using (Pen pen = new Pen(Figure_outColor,3))
             {
                 // Draw the outline of the circle with the color
                 g.DrawEllipse(pen, X - Radius, Y - Radius, 2 * Radius, 2 * Radius);

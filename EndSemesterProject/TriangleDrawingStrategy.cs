@@ -27,11 +27,9 @@ namespace EndSemensterProject
             {
                 g.FillPolygon(brush, trianglePoints);
             }
-            using (Pen pen = new Pen(Figure_outColor))
+            using (Pen pen = new Pen(Figure_outColor,3))
             {
-                g.DrawLine(pen, Point1, Point2);
-                g.DrawLine(pen, Point1, Point2);
-                g.DrawLine(pen, Point1, Point2);
+               g.DrawPolygon(pen, trianglePoints);
             }
         }
     }

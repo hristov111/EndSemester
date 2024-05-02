@@ -54,7 +54,7 @@ namespace EndSemesterProject
             public int Rect_NextID { get; set; }
             public int Trig_NextID { get; set; }
             public int Circle_NextID { get; set; }
-            public Clear_Screen(List<Figure> figures,int rect_nextid, int trig_nextid,int circle_nextid)
+            public Clear_Screen(List<Figure> figures,int trig_nextid, int rect_nextid,int circle_nextid)
             {
                 Rect_NextID = rect_nextid;
                 Trig_NextID = trig_nextid;
@@ -233,7 +233,6 @@ namespace EndSemesterProject
                 {
                     Undo_Create_Delete();
                     MAIN_redo.Push("Create/Delete");
-
                 }
                 else if (txt == "Move")
                 {

@@ -24,7 +24,7 @@ namespace EndSemensterProject
             {
                 g.FillRectangle(brush, X, Y, Width, Height);
             }
-            using (Pen pen = new Pen(Figure_outColor))
+            using (Pen pen = new Pen(Figure_outColor, 3))
             {
                 g.DrawRectangle(pen, X, Y, Width, Height);
             }

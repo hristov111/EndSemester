@@ -57,6 +57,7 @@
             save_toFile_Button = new Button();
             load_fromFile_Button = new Button();
             label13 = new Label();
+            default_button = new Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -65,109 +66,97 @@
             // 
             // rectangle_Width
             // 
-            rectangle_Width.Location = new Point(186, 78);
-            rectangle_Width.Margin = new Padding(6);
+            rectangle_Width.Location = new Point(100, 37);
             rectangle_Width.Name = "rectangle_Width";
-            rectangle_Width.Size = new Size(182, 39);
+            rectangle_Width.Size = new Size(100, 23);
             rectangle_Width.TabIndex = 1;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(39, 85);
-            label4.Margin = new Padding(6, 0, 6, 0);
+            label4.Location = new Point(21, 40);
             label4.Name = "label4";
-            label4.Size = new Size(78, 32);
+            label4.Size = new Size(39, 15);
             label4.TabIndex = 0;
             label4.Text = "Width";
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(31, 202);
-            label5.Margin = new Padding(6, 0, 6, 0);
+            label5.Location = new Point(17, 95);
             label5.Name = "label5";
-            label5.Size = new Size(86, 32);
+            label5.Size = new Size(43, 15);
             label5.TabIndex = 0;
             label5.Text = "Height";
             // 
             // rectangle_Height
             // 
-            rectangle_Height.Location = new Point(186, 202);
-            rectangle_Height.Margin = new Padding(6);
+            rectangle_Height.Location = new Point(100, 95);
             rectangle_Height.Name = "rectangle_Height";
-            rectangle_Height.Size = new Size(182, 39);
+            rectangle_Height.Size = new Size(100, 23);
             rectangle_Height.TabIndex = 1;
             // 
             // circle_Radius
             // 
-            circle_Radius.Location = new Point(163, 141);
-            circle_Radius.Margin = new Padding(6);
+            circle_Radius.Location = new Point(88, 66);
             circle_Radius.Name = "circle_Radius";
-            circle_Radius.Size = new Size(182, 39);
+            circle_Radius.Size = new Size(100, 23);
             circle_Radius.TabIndex = 1;
             // 
             // triangle_Side1
             // 
-            triangle_Side1.Location = new Point(162, 47);
-            triangle_Side1.Margin = new Padding(6);
+            triangle_Side1.Location = new Point(87, 22);
             triangle_Side1.Name = "triangle_Side1";
-            triangle_Side1.Size = new Size(182, 39);
+            triangle_Side1.Size = new Size(100, 23);
             triangle_Side1.TabIndex = 1;
             // 
             // triangle_Side2
             // 
-            triangle_Side2.Location = new Point(162, 169);
-            triangle_Side2.Margin = new Padding(6);
+            triangle_Side2.Location = new Point(87, 79);
             triangle_Side2.Name = "triangle_Side2";
-            triangle_Side2.Size = new Size(182, 39);
+            triangle_Side2.Size = new Size(100, 23);
             triangle_Side2.TabIndex = 1;
             // 
             // triangle_Side3
             // 
-            triangle_Side3.Location = new Point(162, 286);
-            triangle_Side3.Margin = new Padding(6);
+            triangle_Side3.Location = new Point(87, 134);
             triangle_Side3.Name = "triangle_Side3";
-            triangle_Side3.Size = new Size(182, 39);
+            triangle_Side3.Size = new Size(100, 23);
             triangle_Side3.TabIndex = 1;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(48, 64);
-            label6.Margin = new Padding(6, 0, 6, 0);
+            label6.Location = new Point(26, 30);
             label6.Name = "label6";
-            label6.Size = new Size(73, 32);
+            label6.Size = new Size(35, 15);
             label6.TabIndex = 0;
             label6.Text = "Side1";
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(48, 186);
-            label7.Margin = new Padding(6, 0, 6, 0);
+            label7.Location = new Point(26, 87);
             label7.Name = "label7";
-            label7.Size = new Size(73, 32);
+            label7.Size = new Size(35, 15);
             label7.TabIndex = 0;
             label7.Text = "Side2";
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(48, 303);
-            label8.Margin = new Padding(6, 0, 6, 0);
+            label8.Location = new Point(26, 142);
             label8.Name = "label8";
-            label8.Size = new Size(73, 32);
+            label8.Size = new Size(35, 15);
             label8.TabIndex = 0;
             label8.Text = "Side3";
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(33, 147);
-            label9.Margin = new Padding(6, 0, 6, 0);
+            label9.Location = new Point(18, 69);
             label9.Name = "label9";
-            label9.Size = new Size(84, 32);
+            label9.Size = new Size(42, 15);
             label9.TabIndex = 0;
             label9.Text = "Radius";
             // 
@@ -182,11 +171,9 @@
             groupBox1.Controls.Add(label7);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label8);
-            groupBox1.Location = new Point(462, 49);
-            groupBox1.Margin = new Padding(6);
+            groupBox1.Location = new Point(249, 23);
             groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new Padding(6);
-            groupBox1.Size = new Size(522, 489);
+            groupBox1.Size = new Size(281, 229);
             groupBox1.TabIndex = 3;
             groupBox1.TabStop = false;
             groupBox1.Text = "Triangle";
@@ -194,28 +181,25 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(48, 440);
-            label11.Margin = new Padding(6, 0, 6, 0);
+            label11.Location = new Point(26, 206);
             label11.Name = "label11";
-            label11.Size = new Size(323, 32);
+            label11.Size = new Size(158, 15);
             label11.TabIndex = 2;
             label11.Text = "*ONLY red blue green yellow";
             // 
             // triangle_outColor
             // 
-            triangle_outColor.Location = new Point(162, 378);
-            triangle_outColor.Margin = new Padding(6);
+            triangle_outColor.Location = new Point(87, 177);
             triangle_outColor.Name = "triangle_outColor";
-            triangle_outColor.Size = new Size(182, 39);
+            triangle_outColor.Size = new Size(100, 23);
             triangle_outColor.TabIndex = 1;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 378);
-            label2.Margin = new Padding(6, 0, 6, 0);
+            label2.Location = new Point(6, 177);
             label2.Name = "label2";
-            label2.Size = new Size(153, 32);
+            label2.Size = new Size(76, 15);
             label2.TabIndex = 0;
             label2.Text = "Outline color";
             // 
@@ -228,11 +212,9 @@
             groupBox2.Controls.Add(rectangle_Height);
             groupBox2.Controls.Add(label1);
             groupBox2.Controls.Add(label5);
-            groupBox2.Location = new Point(15, 49);
-            groupBox2.Margin = new Padding(6);
+            groupBox2.Location = new Point(8, 23);
             groupBox2.Name = "groupBox2";
-            groupBox2.Padding = new Padding(6);
-            groupBox2.Size = new Size(435, 489);
+            groupBox2.Size = new Size(234, 229);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Rectangle";
@@ -240,28 +222,25 @@
             // label12
             // 
             label12.AutoSize = true;
-            label12.Location = new Point(39, 440);
-            label12.Margin = new Padding(6, 0, 6, 0);
+            label12.Location = new Point(21, 206);
             label12.Name = "label12";
-            label12.Size = new Size(323, 32);
+            label12.Size = new Size(158, 15);
             label12.TabIndex = 2;
             label12.Text = "*ONLY red blue green yellow";
             // 
             // rectangle_outColor
             // 
-            rectangle_outColor.Location = new Point(186, 331);
-            rectangle_outColor.Margin = new Padding(6);
+            rectangle_outColor.Location = new Point(100, 155);
             rectangle_outColor.Name = "rectangle_outColor";
-            rectangle_outColor.Size = new Size(182, 39);
+            rectangle_outColor.Size = new Size(100, 23);
             rectangle_outColor.TabIndex = 1;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(12, 331);
-            label1.Margin = new Padding(6, 0, 6, 0);
+            label1.Location = new Point(6, 155);
             label1.Name = "label1";
-            label1.Size = new Size(153, 32);
+            label1.Size = new Size(76, 15);
             label1.TabIndex = 0;
             label1.Text = "Outline color";
             // 
@@ -272,11 +251,9 @@
             groupBox3.Controls.Add(circle_Radius);
             groupBox3.Controls.Add(label3);
             groupBox3.Controls.Add(label9);
-            groupBox3.Location = new Point(1020, 49);
-            groupBox3.Margin = new Padding(6);
+            groupBox3.Location = new Point(549, 23);
             groupBox3.Name = "groupBox3";
-            groupBox3.Padding = new Padding(6);
-            groupBox3.Size = new Size(436, 489);
+            groupBox3.Size = new Size(235, 229);
             groupBox3.TabIndex = 5;
             groupBox3.TabStop = false;
             groupBox3.Text = "Circle";
@@ -284,37 +261,33 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(12, 440);
-            label10.Margin = new Padding(6, 0, 6, 0);
+            label10.Location = new Point(6, 206);
             label10.Name = "label10";
-            label10.Size = new Size(323, 32);
+            label10.Size = new Size(158, 15);
             label10.TabIndex = 2;
             label10.Text = "*ONLY red blue green yellow";
             // 
             // circle_outColor
             // 
-            circle_outColor.Location = new Point(163, 314);
-            circle_outColor.Margin = new Padding(6);
+            circle_outColor.Location = new Point(88, 147);
             circle_outColor.Name = "circle_outColor";
-            circle_outColor.Size = new Size(182, 39);
+            circle_outColor.Size = new Size(100, 23);
             circle_outColor.TabIndex = 1;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(11, 320);
-            label3.Margin = new Padding(6, 0, 6, 0);
+            label3.Location = new Point(6, 150);
             label3.Name = "label3";
-            label3.Size = new Size(153, 32);
+            label3.Size = new Size(76, 15);
             label3.TabIndex = 0;
             label3.Text = "Outline color";
             // 
             // button1
             // 
-            button1.Location = new Point(182, 132);
-            button1.Margin = new Padding(6);
+            button1.Location = new Point(98, 62);
             button1.Name = "button1";
-            button1.Size = new Size(1020, 154);
+            button1.Size = new Size(549, 72);
             button1.TabIndex = 2;
             button1.Text = "Submit Changes";
             button1.UseVisualStyleBackColor = true;
@@ -322,23 +295,23 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(default_button);
             groupBox4.Controls.Add(save_toFile_Button);
             groupBox4.Controls.Add(load_fromFile_Button);
             groupBox4.Controls.Add(button1);
             groupBox4.Controls.Add(label13);
-            groupBox4.Location = new Point(46, 550);
-            groupBox4.Margin = new Padding(6);
+            groupBox4.Location = new Point(25, 258);
             groupBox4.Name = "groupBox4";
-            groupBox4.Padding = new Padding(6);
-            groupBox4.Size = new Size(1372, 384);
+            groupBox4.Size = new Size(739, 180);
             groupBox4.TabIndex = 6;
             groupBox4.TabStop = false;
             // 
             // save_toFile_Button
             // 
-            save_toFile_Button.Location = new Point(1059, 301);
+            save_toFile_Button.Location = new Point(570, 141);
+            save_toFile_Button.Margin = new Padding(2, 1, 2, 1);
             save_toFile_Button.Name = "save_toFile_Button";
-            save_toFile_Button.Size = new Size(298, 74);
+            save_toFile_Button.Size = new Size(160, 35);
             save_toFile_Button.TabIndex = 4;
             save_toFile_Button.Text = "Save to File";
             save_toFile_Button.UseVisualStyleBackColor = true;
@@ -346,9 +319,10 @@
             // 
             // load_fromFile_Button
             // 
-            load_fromFile_Button.Location = new Point(14, 301);
+            load_fromFile_Button.Location = new Point(8, 141);
+            load_fromFile_Button.Margin = new Padding(2, 1, 2, 1);
             load_fromFile_Button.Name = "load_fromFile_Button";
-            load_fromFile_Button.Size = new Size(298, 74);
+            load_fromFile_Button.Size = new Size(160, 35);
             load_fromFile_Button.TabIndex = 3;
             load_fromFile_Button.Text = "Load from File";
             load_fromFile_Button.UseVisualStyleBackColor = true;
@@ -357,23 +331,31 @@
             // label13
             // 
             label13.AutoSize = true;
-            label13.Location = new Point(416, 62);
-            label13.Margin = new Padding(6, 0, 6, 0);
+            label13.Location = new Point(224, 29);
             label13.Name = "label13";
-            label13.Size = new Size(598, 32);
+            label13.Size = new Size(264, 15);
             label13.TabIndex = 0;
-            label13.Text = "*Click \"Submit Changes\" to set all properties to default";
+            label13.Text = "*Click \"Set default\" to set all properties to default";
+            // 
+            // default_button
+            // 
+            default_button.Location = new Point(8, 25);
+            default_button.Name = "default_button";
+            default_button.Size = new Size(75, 23);
+            default_button.TabIndex = 5;
+            default_button.Text = "Set default";
+            default_button.UseVisualStyleBackColor = true;
+            default_button.Click += default_button_Click;
             // 
             // Form2
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1486, 960);
+            ClientSize = new Size(800, 450);
             Controls.Add(groupBox4);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            Margin = new Padding(6);
             Name = "Form2";
             Text = "Options";
             groupBox1.ResumeLayout(false);
@@ -417,5 +399,6 @@
         private Button load_fromFile_Button;
         private Button save_toFile_Button;
         private Label label13;
+        private Button default_button;
     }
 }

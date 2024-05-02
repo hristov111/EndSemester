@@ -12,43 +12,22 @@ namespace EndSemensterProject
 
         public static Color GetFigureColor(this Figure instance)
         {
-            if(instance.FigureColor == "red")
-            {
-                return Color.Red;
-            }
-            else if(instance.FigureColor == "blue")
-            {
-                return Color.Blue;
-            }
-            else if( instance.FigureColor == "yellow")
-            {
-                return Color.Yellow;
-            }
-            else if(instance.FigureColor == "green")
-            {
-                return Color.Green;
-            }
-            return Color.Black;
+           
+            Color returnColor = instance.FigureColor == "red"
+                ? Color.Red: instance.FigureColor == "blue"
+                ? Color.Blue: instance.FigureColor == "yellow"
+                ? Color.Yellow: instance.FigureColor == "green"
+                ? Color.Green: Color.Black;
+            return returnColor;
         }
         public static Color GetFigure_outColor(this Figure instance)
         {
-            if (instance.Figure_outColor == "red")
-            {
-                return Color.Red;
-            }
-            else if (instance.Figure_outColor == "blue")
-            {
-                return Color.Blue;
-            }
-            else if (instance.Figure_outColor == "yellow")
-            {
-                return Color.Yellow;
-            }
-            else if (instance.Figure_outColor == "green")
-            {
-                return Color.Green;
-            }
-            return Color.Black;
+            Color returnColor = instance.Figure_outColor == "red"
+                 ? Color.Red : instance.Figure_outColor == "blue"
+                 ? Color.Blue : instance.Figure_outColor == "yellow"
+                 ? Color.Yellow : instance.Figure_outColor == "green"
+                 ? Color.Green : Color.Black;
+            return returnColor;
         }
     }
 }

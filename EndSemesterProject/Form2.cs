@@ -26,26 +26,40 @@ namespace EndSemesterProject
         {
             InitializeComponent();
             this.fromInstance = form1;
+            rectangle_Height.Text = fromInstance.Rect_Height.ToString();
+            rectangle_Width.Text = fromInstance.Rect_Width.ToString();
+            rectangle_outColor.Text = fromInstance.Rect_outColor;
+            triangle_Side1.Text = fromInstance.Triangle_Side1.ToString();
+            triangle_Side2.Text = fromInstance.Triangle_Side2.ToString();
+            triangle_Side3.Text = fromInstance.Triangle_Side3.ToString();
+            triangle_outColor.Text = fromInstance.Triangle_outColor;
+            circle_Radius.Text = fromInstance.Circle_Radius.ToString();
+            circle_outColor.Text = fromInstance.Circle_outColor;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            fromInstance.Rect_Width = textbox.GiveValue(rectangle_Width, "Please enter a valid number for rectangle width!\nA default value of 50 is set instead!");
-            fromInstance.Rect_Height = textbox.GiveValue(rectangle_Height, "Please enter a valid number for rectangle helight!\nA default value of 50 is set instead!");
-            fromInstance.Triangle_Side1 = textbox.GiveValue(triangle_Side1, "Please enter a valid number for triangle side1!\nA default value of 50 is set instead!");
-            fromInstance.Triangle_Side2 = textbox.GiveValue(triangle_Side2, "Please enter a valid number for triangle side2!\nA default value of 50 is set instead!");
-            fromInstance.Triangle_Side3 = textbox.GiveValue(triangle_Side3, "Please enter a valid number for triangle side3!\nA default value of 50 is set instead!");
-            fromInstance.Circle_Radius = textbox.GiveValue(circle_Radius, "Please enter a valid number for circle radius!\nA default value of 50 is set instead!");
-            fromInstance.Rect_outColor = textbox.ConvertToColor(rectangle_outColor.Text);
-            fromInstance.Triangle_outColor = textbox.ConvertToColor(triangle_outColor.Text);
-            fromInstance.Circle_outColor = textbox.ConvertToColor(circle_outColor.Text);
+            fromInstance.ChangeProperties(
+                textbox.GiveValue(rectangle_Width, "Please enter a valid number for rectangle width!\nA default value of 50 is set instead!"),
+                 textbox.GiveValue(rectangle_Height, "Please enter a valid number for rectangle helight!\nA default value of 50 is set instead!"),
+                 textbox.GiveValue(triangle_Side1, "Please enter a valid number for triangle side1!\nA default value of 50 is set instead!"),
+                 textbox.GiveValue(triangle_Side2, "Please enter a valid number for triangle side2!\nA default value of 50 is set instead!"),
+                 textbox.GiveValue(triangle_Side3, "Please enter a valid number for triangle side3!\nA default value of 50 is set instead!"),
+                 textbox.GiveValue(circle_Radius, "Please enter a valid number for circle radius!\nA default value of 50 is set instead!"),
+                 textbox.ConvertToColor(rectangle_outColor.Text),
+                 textbox.ConvertToColor(triangle_outColor.Text),
+                 textbox.ConvertToColor(circle_outColor.Text));
             this.Close();
         }
 
         private void load_fromFile_Button_Click(object sender, EventArgs e)
         {
             serializer = new FigureSerializer();
-            fromInstance.figures= serializer.LoadFigures();
+            fromInstance.figures = serializer.LoadFigures();
+            Triangle.NextID = fromInstance.figures.Count(n=> n is Triangle);
+            Circle.NextID = fromInstance.figures.Count(n => n is Circle);
+            Figures.Rectangle.NextID = fromInstance.figures.Count(n => n is Figures.Rectangle);
+            
             this.Close();
         }
 
@@ -55,8 +69,11 @@ namespace EndSemesterProject
             serializer.SaveFigures(fromInstance.figures);
             this.Close();
         }
-      
 
-
+        private void default_button_Click(object sender, EventArgs e)
+        {
+            fromInstance.ChangeProperties(50, 50, 50, 50, 50, 50, "black", "black", "black");
+            this.Close();
+        }
     }
 }

@@ -40,15 +40,15 @@
             yellow = new Color_Button();
             undo_button = new Button();
             redo_button = new Button();
-            label1 = new Label();
+            mode1 = new Label();
+            stop_Alive_button = new Button();
             SuspendLayout();
             // 
             // create_circle
             // 
-            create_circle.Location = new Point(22, 26);
-            create_circle.Margin = new Padding(6);
+            create_circle.Location = new Point(12, 12);
             create_circle.Name = "create_circle";
-            create_circle.Size = new Size(188, 92);
+            create_circle.Size = new Size(101, 43);
             create_circle.TabIndex = 0;
             create_circle.Text = "Circle";
             create_circle.UseVisualStyleBackColor = true;
@@ -56,10 +56,9 @@
             // 
             // create_Triangle
             // 
-            create_Triangle.Location = new Point(269, 26);
-            create_Triangle.Margin = new Padding(6);
+            create_Triangle.Location = new Point(145, 12);
             create_Triangle.Name = "create_Triangle";
-            create_Triangle.Size = new Size(188, 92);
+            create_Triangle.Size = new Size(101, 43);
             create_Triangle.TabIndex = 5;
             create_Triangle.Text = "Triangle";
             create_Triangle.UseVisualStyleBackColor = true;
@@ -67,10 +66,9 @@
             // 
             // create_Rectangle
             // 
-            create_Rectangle.Location = new Point(505, 26);
-            create_Rectangle.Margin = new Padding(6);
+            create_Rectangle.Location = new Point(272, 12);
             create_Rectangle.Name = "create_Rectangle";
-            create_Rectangle.Size = new Size(188, 92);
+            create_Rectangle.Size = new Size(101, 43);
             create_Rectangle.TabIndex = 6;
             create_Rectangle.Text = "Rectangle";
             create_Rectangle.UseVisualStyleBackColor = true;
@@ -79,10 +77,9 @@
             // options_button
             // 
             options_button.BackColor = Color.White;
-            options_button.Location = new Point(2385, 26);
-            options_button.Margin = new Padding(6);
+            options_button.Location = new Point(1284, 12);
             options_button.Name = "options_button";
-            options_button.Size = new Size(139, 49);
+            options_button.Size = new Size(75, 23);
             options_button.TabIndex = 0;
             options_button.Text = "OPTIONS";
             options_button.UseVisualStyleBackColor = false;
@@ -91,20 +88,20 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Items.AddRange(new object[] { "Create", "Delete", "Move", "Edit" });
-            comboBox1.Location = new Point(2149, 28);
-            comboBox1.Margin = new Padding(6);
+            comboBox1.Items.AddRange(new object[] { "Create", "Delete", "Move", "Edit", "Alive" });
+            comboBox1.Location = new Point(1157, 13);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(221, 40);
+            comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 7;
             comboBox1.Text = "Create";
             comboBox1.SelectedIndexChanged += comboBox_TextChanged;
             // 
             // clear_button
             // 
-            clear_button.Location = new Point(2402, 84);
+            clear_button.Location = new Point(1293, 39);
+            clear_button.Margin = new Padding(2, 1, 2, 1);
             clear_button.Name = "clear_button";
-            clear_button.Size = new Size(122, 54);
+            clear_button.Size = new Size(66, 25);
             clear_button.TabIndex = 9;
             clear_button.Text = "Clear";
             clear_button.UseVisualStyleBackColor = true;
@@ -113,44 +110,49 @@
             // red
             // 
             red.BackColor = Color.Red;
-            red.Location = new Point(22, 160);
+            red.Location = new Point(12, 75);
+            red.Margin = new Padding(2, 1, 2, 1);
             red.Name = "red";
-            red.Size = new Size(150, 46);
+            red.Size = new Size(81, 22);
             red.TabIndex = 10;
             red.UseVisualStyleBackColor = false;
             // 
             // blue
             // 
             blue.BackColor = Color.Blue;
-            blue.Location = new Point(22, 240);
+            blue.Location = new Point(12, 112);
+            blue.Margin = new Padding(2, 1, 2, 1);
             blue.Name = "blue";
-            blue.Size = new Size(150, 46);
+            blue.Size = new Size(81, 22);
             blue.TabIndex = 10;
             blue.UseVisualStyleBackColor = false;
             // 
             // green
             // 
             green.BackColor = Color.Green;
-            green.Location = new Point(22, 320);
+            green.Location = new Point(12, 150);
+            green.Margin = new Padding(2, 1, 2, 1);
             green.Name = "green";
-            green.Size = new Size(150, 46);
+            green.Size = new Size(81, 22);
             green.TabIndex = 10;
             green.UseVisualStyleBackColor = false;
             // 
             // yellow
             // 
             yellow.BackColor = Color.Yellow;
-            yellow.Location = new Point(22, 400);
+            yellow.Location = new Point(12, 188);
+            yellow.Margin = new Padding(2, 1, 2, 1);
             yellow.Name = "yellow";
-            yellow.Size = new Size(150, 46);
+            yellow.Size = new Size(81, 22);
             yellow.TabIndex = 10;
             yellow.UseVisualStyleBackColor = false;
             // 
             // undo_button
             // 
-            undo_button.Location = new Point(1197, 28);
+            undo_button.Location = new Point(645, 13);
+            undo_button.Margin = new Padding(2, 1, 2, 1);
             undo_button.Name = "undo_button";
-            undo_button.Size = new Size(150, 46);
+            undo_button.Size = new Size(81, 22);
             undo_button.TabIndex = 11;
             undo_button.Text = "Undo";
             undo_button.UseVisualStyleBackColor = true;
@@ -158,31 +160,45 @@
             // 
             // redo_button
             // 
-            redo_button.Location = new Point(1378, 29);
+            redo_button.Location = new Point(742, 14);
+            redo_button.Margin = new Padding(2, 1, 2, 1);
             redo_button.Name = "redo_button";
-            redo_button.Size = new Size(150, 46);
+            redo_button.Size = new Size(81, 22);
             redo_button.TabIndex = 11;
             redo_button.Text = "Redo";
             redo_button.UseVisualStyleBackColor = true;
             redo_button.Click += redo_button_Click;
             // 
-            // label1
+            // mode1
             // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.White;
-            label1.Location = new Point(2062, 35);
-            label1.Name = "label1";
-            label1.Size = new Size(77, 32);
-            label1.TabIndex = 12;
-            label1.Text = "Mode";
+            mode1.AutoSize = true;
+            mode1.BackColor = Color.White;
+            mode1.Location = new Point(1110, 16);
+            mode1.Margin = new Padding(2, 0, 2, 0);
+            mode1.Name = "mode1";
+            mode1.Size = new Size(38, 15);
+            mode1.TabIndex = 12;
+            mode1.Text = "Mode";
+            // 
+            // stop_Alive_button
+            // 
+            stop_Alive_button.Location = new Point(12, 236);
+            stop_Alive_button.Name = "stop_Alive_button";
+            stop_Alive_button.Size = new Size(75, 23);
+            stop_Alive_button.TabIndex = 13;
+            stop_Alive_button.Text = "Stop";
+            stop_Alive_button.UseVisualStyleBackColor = true;
+            stop_Alive_button.Visible = false;
+            stop_Alive_button.Click += stop_Alive_button_Click;
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(13F, 32F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(2546, 1380);
-            Controls.Add(label1);
+            ClientSize = new Size(1371, 616);
+            Controls.Add(stop_Alive_button);
+            Controls.Add(mode1);
             Controls.Add(redo_button);
             Controls.Add(undo_button);
             Controls.Add(yellow);
@@ -195,7 +211,6 @@
             Controls.Add(create_Rectangle);
             Controls.Add(create_Triangle);
             Controls.Add(create_circle);
-            Margin = new Padding(6);
             Name = "Form1";
             Text = "MyFigures";
             MouseClick += Form1_MouseClick;
@@ -221,6 +236,7 @@
         private Color_Button yellow;
         private Button undo_button;
         private Button redo_button;
-        private Label label1;
+        private Label mode1;
+        private Button stop_Alive_button;
     }
 }

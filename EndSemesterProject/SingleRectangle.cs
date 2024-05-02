@@ -23,6 +23,7 @@ namespace EndSemesterProject
         public int Width { get; set; }
         private int ID { get; set; }
         private CheckTextbox check_rect = new CheckTextbox();
+        public string Color_inside = null;
         public SingleRectangle(Red_Undo redo_undo,Figures.Rectangle instance, string color, string outline, int width, int height, int id)
         {
             InitializeComponent();
@@ -34,6 +35,7 @@ namespace EndSemesterProject
             Width = width;
             ID = id;
             current_color.Text = Color.ToString();
+            Color_inside = current_color.Text;
             current_outline.Text = outline.ToString();
             current_height.Text = Height.ToString();
             current_width.Text = Width.ToString();
@@ -44,6 +46,10 @@ namespace EndSemesterProject
         private void submit_button_Click(object sender, EventArgs e)
         {
             Instance.FigureColor = check_rect.ConvertToColor(current_color.Text);
+            if (Instance.FigureColor.Equals("black"))
+            {
+                Instance.FigureColor = Color_inside;
+            }
             Instance.Figure_outColor = check_rect.ConvertToColor(current_outline.Text);
             Instance.Height = check_rect.GiveValue(current_height, "Please enter a valid number for rectangle height!\nA default value of 50 is set instead!");
             Instance.Width = check_rect.GiveValue(current_width, "Please enter a valid number for rectangle width!\nA default value of 50 is set instead!");

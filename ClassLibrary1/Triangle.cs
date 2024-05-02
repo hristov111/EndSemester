@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -59,10 +60,20 @@ namespace Figures
         public override void ChangePos(int x, int y)
         {
             X = x; Y = y;
-            point1 = new Points(x,y);
-            point2 = new Points(X + FirstSide, Y);
-            double h = 2 * GetArea() / FirstSide;
-            point3 = new Points(X + FirstSide / 2, Y - (float)h);
+
+            // Angles of the triangle using cosinus
+            double angleA = Math.Acos((SecondSide * SecondSide + ThirdSide * ThirdSide - FirstSide * FirstSide) / (2 * SecondSide * ThirdSide));
+            double angleB = ((FirstSide * FirstSide + ThirdSide * ThirdSide - SecondSide * SecondSide) / (2 * FirstSide * ThirdSide));
+            double angleC = ((SecondSide * SecondSide + FirstSide * FirstSide - ThirdSide * ThirdSide) / (2 * SecondSide * FirstSide));
+
+            point1 = new Points(x, y);
+            point2 = new Points(x + (int)ThirdSide, y);
+            point3 = new Points(x + (int)(Math.Cos(angleA) * SecondSide), y - (int)(Math.Sin(angleA) * SecondSide));
+
+            //point1 = new Points(x,y);
+            //point2 = new Points(X + FirstSide, Y);
+            //double h = 2 * GetArea() / FirstSide;
+            //point3 = new Points(X + FirstSide / 2, Y - (float)h);
         }
         protected override double GetArea()
         {
