@@ -11,8 +11,8 @@ namespace Figures
         public int ID { get; set; }
         private  int WIDTH = 1387;
         private  int HEIGHT = 655;
-        private  int Xvelocity = 5;
-        private  int Yvelocity = 3;
+        public  int Xvelocity = 5;
+        public  int Yvelocity = 3;
 
         public string FigureColor { get; set; } = null;
         public string Figure_outColor { get; set; } = null;
@@ -31,24 +31,21 @@ namespace Figures
         protected abstract double GetArea();
         public abstract bool HitTest(int x,int y);
         public abstract void ChangePos(int newX, int newY);
-        public void MoveMember()
+        public void MoveMember(bool Right, bool Left, bool Top, bool Bottom)
         {
-            if (X > WIDTH - 100)
+            if(Right && Xvelocity > 0)
             {
                 Xvelocity = -Xvelocity;
             }
-            if (X < 100)
+            if (Left&& Xvelocity < 0)
             {
                 Xvelocity = -Xvelocity;
             }
-            if (Y > HEIGHT - 50)
+            if(Top && Yvelocity <0) 
             {
                 Yvelocity = -Yvelocity;
             }
-            if (Y < 100)
-            {
-                Yvelocity = -Yvelocity;
-            }
+            if(Bottom && Xvelocity > 0) { Xvelocity = -Xvelocity; }
             X += Xvelocity;
             Y += Yvelocity;
         }

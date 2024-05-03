@@ -13,6 +13,10 @@ namespace Figures
         public int Width { get; set; }
         public int Height { get; set; }
         public static int NextID = 0;
+        public int Left => X;
+        public int Right => X + Width;
+        public int Top => Y;
+        public int Bottom => Y + Height;
         public Rectangle(int x, int y, string figurecolor, string figure_outcolor, int width, int height, bool garbage = false) : base(x, y, figurecolor, figure_outcolor)
         {
             this.Width = width;

@@ -13,6 +13,7 @@ namespace EndSemesterProject
 {
     public partial class SingleTriangle : Form
     {
+        private Form1 Instance_form;
         private Triangle Instance;
         private Red_Undo Redo_undo;
         private Triangle checking_trig;
@@ -24,9 +25,10 @@ namespace EndSemesterProject
         private int ID { get; set; }
         private CheckTextbox check_trig = new CheckTextbox();
         public string Color_inside = null;
-        public SingleTriangle(Red_Undo redo_undo, Triangle instance, string color, string outline, int firstSide, int secondSide, int thirdSide, int id)
+        public SingleTriangle(Form1 instance_form, Red_Undo redo_undo, Triangle instance, string color, string outline, int firstSide, int secondSide, int thirdSide, int id)
         {
             InitializeComponent();
+            Instance_form = instance_form;
             this.Instance=instance;
             this.Redo_undo = redo_undo;
             Color=color;
@@ -49,6 +51,10 @@ namespace EndSemesterProject
         private void triangle_button_Click(object sender, EventArgs e)
         {
             Instance.FigureColor = check_trig.ConvertToColor(current_color.Text);
+            if (Instance.FigureColor != "black" && Instance.FigureColor != Color_inside)
+            {
+                Instance_form.Triangle_Color = null;
+            }
             if (Instance.FigureColor.Equals("black"))
             {
                 Instance.FigureColor = Color_inside;

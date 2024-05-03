@@ -25,21 +25,21 @@ namespace EndSemensterProject
                     if (current_Fig is Triangle)
                     {
                         Triangle curr_trig = current_Fig as Triangle;
-                        SingleTriangle trig_edit = new SingleTriangle(Instance.redo_undo,curr_trig, curr_trig.FigureColor, curr_trig.Figure_outColor, curr_trig.FirstSide, curr_trig.SecondSide, curr_trig.ThirdSide, curr_trig.ID);
+                        SingleTriangle trig_edit = new SingleTriangle(Instance, Instance.redo_undo,curr_trig, curr_trig.FigureColor, curr_trig.Figure_outColor, curr_trig.FirstSide, curr_trig.SecondSide, curr_trig.ThirdSide, curr_trig.ID);
                         trig_edit.ShowDialog();
                         Instance.Invalidate();
                     }
                     else if (current_Fig.GetType().Name == "Rectangle")
                     {
                         Figures.Rectangle curr_rect = current_Fig as Figures.Rectangle;
-                        SingleRectangle rect_edit = new SingleRectangle(Instance.redo_undo,curr_rect, curr_rect.FigureColor, curr_rect.Figure_outColor, curr_rect.Width, curr_rect.Height, curr_rect.ID);
+                        SingleRectangle rect_edit = new SingleRectangle(Instance, Instance.redo_undo,curr_rect, curr_rect.FigureColor, curr_rect.Figure_outColor, curr_rect.Width, curr_rect.Height, curr_rect.ID);
                         rect_edit.ShowDialog();
                         Instance.Invalidate();
                     }
                     else if (current_Fig is Circle)
                     {
                         Circle curr_circle = current_Fig as Circle;
-                        SingleCircle circle_edit = new SingleCircle(Instance.redo_undo,curr_circle, curr_circle.FigureColor, curr_circle.Figure_outColor, curr_circle.Radius, curr_circle.ID);
+                        SingleCircle circle_edit = new SingleCircle(Instance, Instance.redo_undo,curr_circle, curr_circle.FigureColor, curr_circle.Figure_outColor, curr_circle.Radius, curr_circle.ID);
                         circle_edit.ShowDialog();
                         Instance.Invalidate();
                     }

@@ -13,6 +13,7 @@ namespace EndSemesterProject
 {
     public partial class SingleCircle : Form
     {
+        private Form1 Instance_form;
         private Circle Instance;
         private Red_Undo Redo_undo;
         private Circle checking_circle;
@@ -22,9 +23,10 @@ namespace EndSemesterProject
         private int ID { get; set; }
         private CheckTextbox check_circle = new CheckTextbox();
         public string Color_inside = null;
-        public SingleCircle(Red_Undo redo_undo, Circle instance, string color, string outline, int radius, int id)
+        public SingleCircle(Form1 instance_form, Red_Undo redo_undo, Circle instance, string color, string outline, int radius, int id)
         {
             InitializeComponent();
+            Instance_form = instance_form;
             this.Redo_undo = redo_undo;
             this.Instance=instance;
             Color=color;
@@ -42,6 +44,10 @@ namespace EndSemesterProject
         private void circle_submit_Click(object sender, EventArgs e)
         {
             Instance.FigureColor = check_circle.ConvertToColor(current_color.Text);
+            if(Instance.FigureColor != "black" && Instance.FigureColor != Color_inside)
+            {
+                Instance_form.Circle_Color = null;
+            }
             if (Instance.FigureColor.Equals("black"))
             {
                 Instance.FigureColor = Color_inside;

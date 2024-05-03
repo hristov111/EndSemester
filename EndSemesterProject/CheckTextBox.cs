@@ -20,6 +20,11 @@ namespace EndSemesterProject
                 MessageBox.Show( "Numbers not allowed. Please enter a suitable color!", "Error");
                 return "black";
             }
+            else if(color == " ")
+            {
+                MessageBox.Show("Please enter a valid color!", "Error");
+                return "";
+            }
             switch (color)
             {
                 case "red":
