@@ -14,7 +14,7 @@ namespace EndSemesterProject
         public delegate void CommandMethod();
         public List<Figures.Figure> figures = new List<Figures.Figure>();
         private List<CommandMethod> commands = new List<CommandMethod>();
-        private List<Figure> saved_colors_default = new List<Figure>();
+        private List<string> saved_colors_default = new List<string>();
         private int SAVED_C = 0;
         public string currentColor = null;
         // setting default properties
@@ -195,7 +195,7 @@ namespace EndSemesterProject
             Invalidate();
         }
         public void ChangeProperties(int rect_width, int rect_height, int trig_1, int trig_2,
-            int trig_3, int circle_radisus, string rect_out, string trig_out, string circle_out, string rect_color="", string trig_color="", string circle_color="")
+            int trig_3, int circle_radisus, string rect_out, string trig_out, string circle_out, string rect_color, string trig_color, string circle_color)
         {
             Rect_Width = rect_width;
             Rect_Height = rect_height;
@@ -209,33 +209,31 @@ namespace EndSemesterProject
             Rect_outColor = rect_out;
             Triangle_outColor = trig_out;
             Circle_outColor = circle_out;
-
-            Rect_Color = rect_color;
-            Triangle_Color = trig_color;
-            Circle_Color = circle_color;
-            if(rect_color == "" && trig_color == "" && circle_color == "")
+            if(rect_color != null)
             {
-                for(int i = 0; i < figures.Count; ++i)
-                {
-                    figures[i] = saved_colors_default[i];
-                }
-                saved_colors_default.Clear();
-                Invalidate();
-                return;
+                Rect_Color = rect_color;
+            }
+            if(trig_color!= null)
+            {
+                Triangle_Color = trig_color;
+            }
+            if(circle_color != null)
+            {
+                Circle_Color = circle_color;
             }
             foreach (Figure figure in figures)
             {
-                if(SAVED_C == 0)
-                {
-                    saved_colors_default.Add(figure);
-                }
+                saved_colors_default.Add(figure.FigureColor);
                 if (figure is Figures.Rectangle)
                 {
                     Figures.Rectangle rect = (Figures.Rectangle)figure;
                     rect.Height = rect_height;
                     rect.Width = rect_width;
                     rect.Figure_outColor = rect_out;
-                    rect.FigureColor = rect_color;
+                    if(rect_color != null)
+                    {
+                        rect.FigureColor = Rect_Color;
+                    }
                 }
                 else if (figure is Triangle)
                 {
@@ -244,7 +242,10 @@ namespace EndSemesterProject
                     triangle.SecondSide = trig_2;
                     triangle.ThirdSide = trig_3;
                     triangle.Figure_outColor = trig_out;
-                    triangle.FigureColor = trig_color;
+                    if(trig_color != null)
+                    {
+                        triangle.FigureColor = Triangle_Color;
+                    }
                     triangle.ChangePos(triangle.X, triangle.Y);
 
                 }
@@ -252,11 +253,58 @@ namespace EndSemesterProject
                 {
                     Circle circle = (Circle)figure;
                     circle.Radius = circle_radisus;
-                    circle.FigureColor = circle_color;
+                    if(circle_color != null)
+                    {
+                        circle.FigureColor = Circle_Color;
+                    }
                     circle.Figure_outColor = circle_out;
                 }
             }
-            SAVED_C++;
+        }
+
+
+        public void SetToDefault()
+        {
+            try
+            {
+
+                for (int i = 0; i < saved_colors_default.Count; ++i)
+                {
+                    figures[i].FigureColor = saved_colors_default[i];
+                    figures[i].Figure_outColor = "black";
+                    if (figures[i] is Figures.Rectangle)
+                    {
+                        Figures.Rectangle rect = (Figures.Rectangle)figures[i];
+                        rect.Height = 50;
+                        rect.Width = 50;
+                        rect.Figure_outColor = "black";
+                    }
+                    else if (figures[i] is Triangle)
+                    {
+                        Triangle triangle = (Triangle)figures[i];
+                        triangle.FirstSide = 50;
+                        triangle.SecondSide = 50;
+                        triangle.ThirdSide = 50;
+                        triangle.ChangePos(triangle.X, triangle.Y);
+                    }
+                    else if (figures[i] is Circle)
+                    {
+                        Circle circle = (Circle)figures[i];
+                        circle.Radius = 50;
+                    }
+                }
+                saved_colors_default.Clear();
+            }
+            catch (IndexOutOfRangeException ex) 
+            { 
+
+            }
+
+
+            
+
+          
+            saved_colors_default.Clear();
         }
 
         private void Form1_MouseDown(object sender, MouseEventArgs e)
@@ -284,6 +332,7 @@ namespace EndSemesterProject
             int trig = Triangle.NextID;
             int rect = Figures.Rectangle.NextID;
             int circle = Circle.NextID;
+            saved_colors_default.Clear();
             redo_undo.Set_ClearList(figures, trig, rect, circle);
             figures.Clear();
             Figures.Rectangle.NextID = 0;

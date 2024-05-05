@@ -21,7 +21,7 @@ namespace EndSemensterProject
         }
         public void Execute(MouseEventArgs e)
         {
-            if (Instance.currentMode == "Create" && Instance.currentColor != null)
+            if (Instance.currentMode == "Create" &&  Instance.currentColor != null)
             {
                 if (Instance.current_option == "Rectangle")
                 {

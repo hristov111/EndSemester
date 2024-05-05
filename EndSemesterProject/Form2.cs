@@ -146,7 +146,7 @@ namespace EndSemesterProject
 
         private void default_button_Click(object sender, EventArgs e)
         {
-            fromInstance.ChangeProperties(50, 50, 50, 50, 50, 50, "black", "black", "black");
+            fromInstance.SetToDefault();
             this.Close();
         }
     }
