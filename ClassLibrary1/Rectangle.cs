@@ -13,11 +13,11 @@ namespace Figures
         public int Width { get; set; }
         public int Height { get; set; }
         public static int NextID = 0;
-        public int Left => X;
-        public int Right => X + Width;
-        public int Top => Y;
-        public int Bottom => Y + Height;
-        public Rectangle(int x, int y, string figurecolor, string figure_outcolor, int width, int height, bool garbage = false) : base(x, y, figurecolor, figure_outcolor)
+        public int Left { get; set; }
+        public int Right { get; set; }
+        public int Top { get; set; }
+        public int Bottom { get; set; }
+    public Rectangle(int x, int y, string figurecolor, string figure_outcolor, int width, int height, bool garbage = false) : base(x, y, figurecolor, figure_outcolor)
         {
             this.Width = width;
             this.Height = height;
@@ -25,11 +25,13 @@ namespace Figures
             {
                 ID = NextID++;
             }
+            ChangePos(x, y);
         }
         public Rectangle()
         {
 
         }
+
         public override bool Equals(object? rect)
         {
             if (rect == null || GetType() != rect.GetType())
@@ -61,6 +63,10 @@ namespace Figures
         public override void ChangePos(int x, int y)
         {
             X = x; Y = y;
+            Left = X;
+            Right = X + Width;
+            Top = Y;
+            Bottom = Y + Height;
         }
     }
 }

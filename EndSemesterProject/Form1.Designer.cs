@@ -89,7 +89,7 @@
             // 
             comboBox1.FormattingEnabled = true;
             comboBox1.Items.AddRange(new object[] { "Create", "Delete", "Move", "Edit", "Alive" });
-            comboBox1.Location = new Point(1157, 13);
+            comboBox1.Location = new Point(1157, 12);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(121, 23);
             comboBox1.TabIndex = 7;
@@ -160,7 +160,7 @@
             // 
             // redo_button
             // 
-            redo_button.Location = new Point(742, 14);
+            redo_button.Location = new Point(742, 13);
             redo_button.Margin = new Padding(2, 1, 2, 1);
             redo_button.Name = "redo_button";
             redo_button.Size = new Size(81, 22);
@@ -218,6 +218,7 @@
             MouseDown += Form1_MouseDown;
             MouseMove += Form1_MouseMove;
             MouseUp += Form1_MouseUp;
+            Resize += Form1_Resize;
             ResumeLayout(false);
             PerformLayout();
         }

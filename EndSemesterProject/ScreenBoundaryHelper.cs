@@ -5,14 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using Figures;
+using EndSemesterProject;
 
 namespace EndSemensterProject
 {
     public static class ScreenBoundaryHelper
     {
+        public static int WIDTH = 1387;
+        public static int HEIGHT =686;
         public static Point GetScreenBounds()
         {
-            return new Point(1387, 655);
+            return new Point(WIDTH, HEIGHT);
         }
 
         public static bool IsAtTop(this Figures.Rectangle rect)
@@ -23,7 +26,7 @@ namespace EndSemensterProject
         public static bool IsAtBottom(this Figures.Rectangle rect)
         {
             Point screenBounds = GetScreenBounds();
-            return rect.Bottom >= screenBounds.Y-35;
+            return rect.Bottom >= screenBounds.Y-60;
         }
 
         public static bool IsAtLeft(this Figures.Rectangle rect)
@@ -45,7 +48,7 @@ namespace EndSemensterProject
         public static bool IsAtBottom(this Circle circle)
         {
             Point screenBounds = GetScreenBounds();
-            return circle.Y + circle.Radius >= screenBounds.Y - 35;
+            return circle.Y + circle.Radius >= screenBounds.Y - 50;
         }
 
         public static bool IsAtLeft(this Circle circle)
@@ -78,7 +81,7 @@ namespace EndSemensterProject
             Triangle.Points[] vertices = { triangle.point1, triangle.point2, triangle.point3 };
             foreach (Triangle.Points vertex in vertices)
             {
-                if (vertex.Y >= screenBounds.Y - 40)
+                if (vertex.Y >= screenBounds.Y - 60)
                 {
                     return true;
                 }

@@ -45,7 +45,7 @@ namespace Figures
             {
                 Yvelocity = -Yvelocity;
             }
-            if(Bottom && Xvelocity > 0) { Xvelocity = -Xvelocity; }
+            if(Bottom && Yvelocity > 0) { Yvelocity = -Yvelocity; }
             X += Xvelocity;
             Y += Yvelocity;
         }

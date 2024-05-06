@@ -23,6 +23,7 @@ namespace EndSemesterProject
                 ? "blue" : this.BackColor == Color.Yellow
                 ? "yellow" : this.BackColor == Color.Green 
                 ? "green" : "black";
+            Instance.currentOutColor = Instance.currentColor;
         }
         protected override void OnMouseEnter(EventArgs e)
         {

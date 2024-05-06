@@ -27,16 +27,19 @@ namespace EndSemesterProject
         {
             InitializeComponent();
             this.fromInstance = form1;
+
             rectangle_Height.Text = fromInstance.Rect_Height.ToString();
             rectangle_Width.Text = fromInstance.Rect_Width.ToString();
-            rectangle_outColor.Text = fromInstance.Rect_outColor;
+
             triangle_Side1.Text = fromInstance.Triangle_Side1.ToString();
             triangle_Side2.Text = fromInstance.Triangle_Side2.ToString();
             triangle_Side3.Text = fromInstance.Triangle_Side3.ToString();
-            triangle_outColor.Text = fromInstance.Triangle_outColor;
+
             circle_Radius.Text = fromInstance.Circle_Radius.ToString();
-            circle_outColor.Text = fromInstance.Circle_outColor;
-            Check_Color();
+
+            Check_Color(true);
+            Check_Color(false);
+
             if(fromInstance.Circle_Color != null)
             {
                 circle_color.Text = fromInstance.Circle_Color;
@@ -48,6 +51,18 @@ namespace EndSemesterProject
             if(fromInstance.Triangle_Color != null)
             {
                 triangle_color.Text = fromInstance.Triangle_Color;
+            }
+            if(fromInstance.Triangle_outColor != null)
+            {
+                triangle_outColor.Text= fromInstance.Triangle_outColor;
+            }
+            if( fromInstance.Rect_outColor != null)
+            {
+                rectangle_outColor.Text = fromInstance.Rect_outColor;
+            }
+            if(fromInstance.Circle_outColor != null)
+            {
+                circle_outColor.Text = fromInstance.Circle_outColor;
             }
 
         }
@@ -70,7 +85,7 @@ namespace EndSemesterProject
                  );
             this.Close();
         }
-        private void Check_Color()
+        private void Check_Color(bool isInside)
         {
             string c_color = null;
             bool circle_checked = false;
@@ -80,48 +95,64 @@ namespace EndSemesterProject
             bool t_checked = false;
             foreach(Figure fig in fromInstance.figures)
             {
-                if(c_color != null && fig is Circle && fig.FigureColor != c_color)
+                 string main_color;
+                if (isInside)
                 {
-                    fromInstance.Circle_Color = null;
+                     main_color = fig.FigureColor;
+                }
+                else
+                {
+                    main_color = fig.Figure_outColor;
+                }
+
+                if (c_color != null && fig is Circle && main_color!= c_color)
+                {
+                    if (isInside) fromInstance.Circle_Color = null;
+                    else fromInstance.Circle_outColor = null;
                     c_color = null;
                     circle_checked = true;
                 }
-                else if(r_color != null && fig is Figures.Rectangle && fig.FigureColor != r_color)
+                else if(r_color != null && fig is Figures.Rectangle && main_color != r_color)
                 {
-                    fromInstance.Rect_Color = null;
+                    if (isInside) fromInstance.Rect_Color = null;
+                    else fromInstance.Rect_outColor = null;
                     r_color = null;
                     r_checked = true;
                 }
-                else if(t_color != null && fig is Triangle &&  fig.FigureColor != t_color)
+                else if(t_color != null && fig is Triangle &&   main_color != t_color)
                 {
-                    fromInstance.Triangle_Color = null;
+                    if (isInside) fromInstance.Triangle_Color= null;
+                    else fromInstance.Triangle_outColor = null;
                     t_color = null;
                     t_checked = true;
                 }
                 if(fig is Circle && !circle_checked)
                 {
-                    c_color = fig.FigureColor;
+                    c_color = main_color;
                 }
                 else if(fig is Triangle && !t_checked)
                 {
-                    t_color = fig.FigureColor;
+                    t_color = main_color;
                 }
                 else if( fig is Figures.Rectangle && !r_checked)
                 {
-                    r_color = fig.FigureColor;
+                    r_color = main_color;
                 }
             }
             if(c_color != null)
             {
-                fromInstance.Circle_Color = c_color;
+                if (isInside) fromInstance.Circle_Color = c_color;
+                else fromInstance.Circle_outColor = c_color;
             }
             if(t_color != null)
             {
-                fromInstance.Triangle_Color= t_color;
+                if (isInside) fromInstance.Triangle_Color= t_color;
+                else fromInstance.Triangle_outColor = t_color;
             }
             if(r_color != null)
             {
-                fromInstance.Rect_Color = r_color;
+                if (isInside) fromInstance.Rect_Color= r_color;
+                else fromInstance.Rect_outColor = r_color;
             }
             
         }
